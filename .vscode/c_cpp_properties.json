@@ -1,0 +1,16 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "c:\\opt\\ros\\noetic\\x64\\include\\**",
+        "C:\\catkin_ws\\src\\ros_confapp\\include\\**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}

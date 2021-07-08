@@ -1,0 +1,15 @@
+{
+    "lexicons":[
+        {"keyword":"create", "params":[], "structDep":["new"], "length": 3},
+        {"keyword":"load", "params":[], "structDep":[], "length": 2},
+        {"keyword":"ls", "params":[], "structDep":[], "length": 1},
+        {"keyword":"toggle", "params":[], "structDep":[], "length": 2},
+        {"keyword":"add", "params":["name","type","rel"], "structDep":[], "length": 6},
+        {"keyword":"remove", "params":[], "structDep":[], "length": 2},
+        {"keyword":"man", "params":[], "structDep":[], "length": 2},
+        {"keyword":"exit", "params":[], "structDep":[], "length": 1},
+        {"keyword":"show", "params":[], "structDep":[], "length": 2},
+        {"keyword":"select", "params":[], "structDep":[], "length": 0},
+        {"keyword":"config", "params":[], "structDep":[], "length": 1}
+    ]
+}

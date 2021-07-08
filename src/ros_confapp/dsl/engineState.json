@@ -1,0 +1,16 @@
+{
+    "projects": [
+        {
+            "name": "test",
+            "status": 0
+        },
+        {
+            "name": "test2",
+            "status": 0
+        },
+        {
+            "name": "johndoe",
+            "status": 1
+        }
+    ]
+}
