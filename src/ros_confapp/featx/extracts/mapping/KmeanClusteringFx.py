@@ -1,4 +1,4 @@
-from ros_confapp.featx.Clusters import Clusters
+from ros_confapp.featx.extracts.mapping.Clusters import Clusters
 import math
 import matplotlib.pyplot as plt
 import random

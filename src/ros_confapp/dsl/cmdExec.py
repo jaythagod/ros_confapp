@@ -113,7 +113,7 @@ class CmdExec(DslState):
 
 
     def updateDslState(self, pname):
-        stateStore = {"name": pname, "status": 0}
+        stateStore = {"name": pname, "mode":"", "status": 0}
         estate = self.getEngineState()
         estate['projects'].append(stateStore)
         self.saveEngineState(estate)
