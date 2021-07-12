@@ -1,381 +1,186 @@
 {
-    "id":"root_bot",
-    "name": "Robot",
-    "sub":[
-        {
-            "id":"ctrl_root",
-            "name": "Control",
-            "props": {
-                "type":"Abstract",
-                "description": "Mandatory",
-                "relationship":"AND",
-                "status": true
-            },
-            "sub":[{
-                "id":"top_ctrl",
-                "name": "Teleoperation",
-                "props": {
-                "type":"Concrete",
-                "description": "Optional",
-                "relationship":"OR",
-                "status": true
-              }
-            },
-            {
-                "id":"traj_ctrl",
-                "name": "Trajectory Control",
-                "props": {
-                "type":"Concrete",
-                "description": "Optional",
-                "relationship":"OR",
-                "status": true
-              }
-            },
-            {
-                "id":"comp_ctrl",
-                "name": "Component Control",
-                "props": {
-                "type":"Abstract",
-                "description": "Mandatory",
-                "relationship":"AND",
-                "status": true
-              },
-              "sub":[
-                  {
-                    "id":"hdctrl_comp",
-                    "name": "Head Control",
-                    "props": {
-                    "type":"Concrete",
-                    "description": "Optional",
-                    "relationship":"OR",
-                    "status": true
+  "id":"root_bot",
+  "name": "TiMo",
+  "sub":[{
+          "id":"ctrl_root",
+          "name": "Control",
+          "props": {
+              "type":"Abstract",
+              "description": "Mandatory",
+              "relationship":"AND",
+              "mode":"Static",
+              "time":"Early",
+              "status": true
+          },
+          "sub":[{
+              "id":"top_ctrl",
+              "name": "Teleoperation",
+              "props": {
+              "type":"Concrete",
+              "description": "Optional",
+              "relationship":"OR",
+              "mode":"Static",
+              "time":"Early",
+              "status": true
+            }
+          }]
+      },
+      {
+          "id":"nav_root",
+          "name": "Navigation",
+          "props": {
+              "type":"Abstract",
+              "description": "Mandatory",
+              "relationship":"AND",
+              "mode":"Static",
+              "time":"Early",
+              "status": true
+          },
+          "sub":[{
+                  "id":"pathp_nav",
+                  "name": "Path Planning",
+                  "props": {
+                  "type":"Concrete",
+                  "description": "Mandatory",
+                  "mode":"Static",
+                  "time":"Early",
+                  "status": true
                   }
-                  },
-                  {
-                    "id":"bdctrl_comp",
-                    "name": "Body Control",
-                    "props": {
-                    "type":"Concrete",
-                    "description": "Mandatory",
-                    "relationship":"AND",
-                    "status": false
-                  }
-                  },
-                  {
-                    "id":"jtctrl_comp",
-                    "name": "Joint Control",
-                    "props": {
-                    "type":"Concrete",
-                    "description": "Optional",
-                    "relationship":"OR",
-                    "status": true
-                  }
-                  },
-                  {
-                    "id":"bsctrl_comp",
-                    "name": "Base Control",
-                    "props": {
-                    "type":"Concrete",
-                    "description": "Mandatory",
-                    "relationship":"AND",
-                    "status": true
-                  }
-                  }
-                ]
-            }]
-        },
-        {
-            "id":"nav_root",
-            "name": "Navigation",
-            "props": {
-                "type":"Abstract",
-                "description": "Mandatory",
-                "relationship":"AND",
-                "status": true
-            },
-            "sub":[{
-                "id":"mtplan_nav",
-                    "name": "Motion Planning",
-                    "props": {
-                    "type":"Concrete",
-                    "description": "Mandatory",
-                    "status": true
-                  },
-                  "sub":[{
-                    "id":"mp_mtplan",
-                    "name": "Mapping",
-                    "props": {
-                    "type":"Concrete",
-                    "description": "Alternative",
-                    "relationship":"XOR",
-                    "status": true
-                  }
-                  },
-                  {
-                    "id":"lclztn_mtplan",
-                    "name": "Localisation",
-                    "props": {
-                    "type":"Concrete",
-                    "description": "Alternative",
-                    "relationship":"XOR",
-                    "status": true
-                  }
-                  },
-                  {
-                    "id":"slam_mtplan",
-                    "name": "SLAM",
-                    "props": {
-                    "type":"Concrete",
-                    "description": "Alternative",
-                    "relationship":"XOR",
-                    "status": false
-                  }
-                  }]
-            }]
-        },
-        {
-            "id":"cv_root",
-            "name": "Computer Vision",
-            "props": {
-                "type":"Abstract",
-                "description": "Mandatory",
-                "relationship":"AND",
-                "status": true
-            },
-            "sub":[
-                {
-                    "id":"trkn_cv",
-                    "name": "Tracking",
-                    "props": {
-                    "type":"Abstract",
-                    "description": "Mandatory",
-                    "relationship":"AND",
-                    "status": false
-                  }
-                },
-                {
+                }]
+      },
+      {
+          "id":"cv_root",
+          "name": "Computer Vision",
+          "props": {
+              "type":"Abstract",
+              "description": "Mandatory",
+              "relationship":"AND",
+              "mode":"Static",
+              "time":"Early",
+              "status": true
+          },
+          "sub":[{
                   "id":"dtktn_cv",
-                    "name": "Detection",
-                    "props": {
-                    "type":"Abstract",
-                    "description": "Mandatory",
-                    "relationship":"AND",
-                    "status": true
+                  "name": "Detection",
+                  "props": {
+                  "type":"Abstract",
+                  "description": "Mandatory",
+                  "relationship":"AND",
+                  "mode":"Static",
+                  "time":"Early",
+                  "status": true
                   },
-                  "sub":[
-                    {
-                      "id":"crn_dtktn",
-                      "name": "Corner Detection",
-                      "props": {
-                      "type":"Concrete",
-                      "description": "Mandatory",
-                      "relationship":"AND",
-                      "status": true
-                    }
-                    },
-                    {
+                "sub":[{
                       "id":"obj_dtktn",
                       "name": "Object Detection",
                       "props": {
                       "type":"Concrete",
                       "description": "Mandatory",
                       "relationship":"AND",
+                      "mode":"Static",
+                      "time":"Early",
                       "status": false
-                    },
-                    "sub": [
-                      {
-                          "id": "bjetrm_obj",
-                          "name": "Test_feature",
-                          "props": {
-                              "type": "Concrete",
-                              "description": "Optional",
-                              "relationship": "OR",
-                              "status": true
-                          }
-                      },
-                      {
-                          "id": "ujottl_obj",
-                          "name": "Test_feature25",
-                          "props": {
-                              "type": "Concrete",
-                              "description": "Optional",
-                              "relationship": "OR",
-                              "status": true
-                          }
                       }
-                  ]
-                    },
-                    {
-                      "id":"fc_dtktn",
-                      "name": "Facial Detection",
-                      "props": {
-                      "type":"Concrete",
-                      "description": "Optional",
-                      "relationship":"OR",
-                      "status": true
-                    },
-                    "sub":[{
-                      "id":"pd_fc",
-                      "name": "Person Detection",
-                      "props": {
-                      "type":"Concrete",
-                      "description": "Optional",
-                      "relationship":"OR",
-                      "status": false
-                    }
-                    }]
-                    },
-                    {
-                      "id":"mkr_dtktn",
-                      "name": "Marker Detection",
-                      "props": {
-                      "type":"Concrete",
-                      "description": "Optional",
-                      "relationship":"OR",
-                      "status": true
-                    }
-                    },
-                    {
-                      "id":"pe_dtktn",
-                      "name": "Pose Estimation",
-                      "props": {
-                      "type":"Concrete",
-                      "description": "Optional",
-                      "relationship":"OR",
-                      "status": true
-                    }
-                    }]
-                },
-                {
-                  "id":"kpf_cv",
-                    "name": "Keypoints Finding",
-                    "props": {
-                    "type":"Concrete",
-                    "description": "Mandatory",
-                    "relationship":"AND",
-                    "status": true
-                  }
-                },
-                {
-                  "id":"mtchn_cv",
-                    "name": "Matching",
-                    "props": {
-                    "type":"Concrete",
-                    "description": "Mandatory",
-                    "relationship":"AND",
-                    "status": true
-                  }
-                }]
-        },
-        {
-            "id":"mvmnt_root",
-            "name": "Movement",
-            "props": {
-                "type":"Concrete",
-                "description": "Mandatory",
-                "relationship":"AND",
-                "status": true
-            },
-            "sub":[{
-                "id":"colid_mvmnt",
-                "name": "Collision Detection",
-                "props": {
-                "type":"Concrete",
-                "description": "Mandatory",
-                "relationship":"AND",
-                "status": true
-              }
-            },
-            {
-              "id":"mblt_mvmnt",
-                "name": "Mobility",
-                "props": {
-                "type":"Concrete",
-                "description": "Optional",
-                "relationship":"OR",
-                "status": true
-              }
-            },
-            {
-              "id":"jmov_mvmnt",
-                "name": "Joint Movement",
-                "props": {
-                "type":"Abstract",
-                "description": "Optional",
-                "relationship":"OR",
-                "status": true
-              },
-              "sub":[{
-                "id":"jtraj_jmov",
-                "name": "Joint Trajectory",
-                "props": {
-                "type":"Concrete",
-                "description": "Optional",
-                "relationship":"OR",
-                "status": true
-              },
-              "sub":[{
-                "id":"pnp_jtraj",
-                "name": "PicK and Place",
-                "props": {
-                "type":"Concrete",
-                "description": "Optional",
-                "relationship":"OR",
-                "status": true
-              }
+                  }]
+                  
               }]
-              }]
-            },
-            {
-              "id":"colav_mvmnt",
-                "name": "Collision Avoidance",
-                "props": {
-                "type":"Concrete",
-                "description": "Optional",
-                "relationship":"OR",
-                "status": true
-              }
-            }]
-        },
-        {
-            "id":"pc_root",
-            "name": "Point Cloud",
-            "props": {
-                "type":"Concrete",
-                "description": "Mandatory",
-                "relationship":"AND",
-                "status": true
-            },
-            "sub":[{
-              "id":"sgmnt_pc",
-              "name": "Segmentation",
-              "props": {
+              
+      },
+      {
+          "id":"pos_root",
+          "name": "Pose",
+          "props": {
               "type":"Abstract",
               "description": "Mandatory",
               "relationship":"AND",
+              "mode":"Static",
+              "time":"Early",
               "status": true
-            },
-            "sub":[{
-              "id":"obs_sgmnt",
-              "name": "Object Based Segmentation",
+          },
+          "sub":[{
+              "id":"mp_ps",
+              "name": "Mapping",
               "props": {
               "type":"Concrete",
-              "description": "Mandatory",
-              "relationship":"AND",
+              "description": "Optional",
+              "relationship":"OR",
+              "mode":"Static",
+              "time":"Early",
               "status": true
             }
-            },
-            {
-              "id":"rgn_sgmnt",
-              "name": "Region Based Segmentation",
+          },
+          {
+              "id":"ls_ps",
+              "name": "Localisation",
               "props": {
               "type":"Concrete",
-              "description": "Mandatory",
-              "relationship":"AND",
+              "description": "Optional",
+              "relationship":"OR",
+              "mode":"Static",
+              "time":"Early",
               "status": true
             }
-            }]
-            }]
-        }
-    ]
+          },
+          {
+              "id":"slm_ps",
+              "name": "SLAM",
+              "props": {
+              "type":"Concrete",
+              "description": "Optional",
+              "relationship":"OR",
+              "mode":"Static",
+              "time":"Early",
+              "status": true
+            }
+          }]
+      },
+       {
+          "id":"mot_root",
+          "name": "Motion",
+          "props": {
+              "type":"Abstract",
+              "description": "Mandatory",
+              "relationship":"AND",
+              "mode":"Static",
+              "time":"Early",
+              "status": true
+          },
+          "sub":[{
+              "id":"lctm_mot",
+              "name": "Locomotion",
+              "props": {
+              "type":"Concrete",
+              "description": "Optional",
+              "relationship":"OR",
+              "mode":"Static",
+              "time":"Early",
+              "status": true
+            }
+          },
+          {
+              "id":"cld_mot",
+              "name": "Collision Detection",
+              "props": {
+              "type":"Concrete",
+              "description": "Optional",
+              "relationship":"OR",
+              "mode":"Static",
+              "time":"Early",
+              "status": true
+            }
+          },
+          {
+              "id":"atp_mot",
+              "name": "Arm To Point",
+              "props": {
+              "type":"Concrete",
+              "description": "Optional",
+              "relationship":"OR",
+              "mode":"Static",
+              "time":"Early",
+              "status": true
+            }
+          }]
+      }]
+                  
 }

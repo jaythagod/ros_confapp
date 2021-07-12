@@ -14,59 +14,43 @@
         },
         {
             "parent": "root_bot",
-            "child": "mvmnt_root"
+            "child": "pos_root"
         },
         {
             "parent": "root_bot",
-            "child": "pc_root"
+            "child": "mot_root"
+        },
+        {
+            "parent": "mot_root",
+            "child": "lctm_mot"
+        },
+        {
+            "parent": "mot_root",
+            "child": "cld_mot"
+        },
+        {
+            "parent": "mot_root",
+            "child": "atp_mot"
+        },
+        {
+            "parent": "pos_root",
+            "child": "mp_ps"
+        },
+        {
+            "parent": "pos_root",
+            "child": "ls_ps"
+        },
+        {
+            "parent": "pos_root",
+            "child": "slm_ps"
+        },
+        {
+            "parent": "nav_root",
+            "child": "pathp_nav"
         },
         {
             "parent": "ctrl_root",
             "child": "top_ctrl"
-        },
-        {
-            "parent": "ctrl_root",
-            "child": "traj_ctrl"
-        },
-        {
-            "parent": "ctrl_root",
-            "child": "comp_ctrl"
-        },
-        {
-            "parent": "comp_ctrl",
-            "child": "hdctrl_comp"
-        },
-        {
-            "parent": "comp_ctrl",
-            "child": "bdctrl_comp"
-        },
-        {
-            "parent": "comp_ctrl",
-            "child": "jtctrl_comp"
-        },
-        {
-            "parent": "comp_ctrl",
-            "child": "bsctrl_comp"
-        },
-        {
-            "parent": "nav_root",
-            "child": "mtplan_nav"
-        },
-        {
-            "parent": "mtplan_nav",
-            "child": "mp_mtplan"
-        },
-        {
-            "parent": "mtplan_nav",
-            "child": "lclztn_mtplan"
-        },
-        {
-            "parent": "mtplan_nav",
-            "child": "slam_mtplan"
-        },
-        {
-            "parent": "cv_root",
-            "child": "trkn_cv"
         },
         {
             "parent": "cv_root",
@@ -74,80 +58,9 @@
         },
         {
             "parent": "dtktn_cv",
-            "child": "crn_dtktn"
-        },
-        {
-            "parent": "dtktn_cv",
             "child": "obj_dtktn"
-        },
-        {
-            "parent": "dtktn_cv",
-            "child": "fc_dtktn"
-        },
-        {
-            "parent": "fc_dtktn",
-            "child": "pd_fc"
-        },
-        {
-            "parent": "dtktn_cv",
-            "child": "mkr_dtktn"
-        },
-        {
-            "parent": "dtktn_cv",
-            "child": "pe_dtktn"
-        },
-        {
-            "parent": "cv_root",
-            "child": "kpf_cv"
-        },
-        {
-            "parent": "cv_root",
-            "child": "mtchn_cv"
-        },
-        {
-            "parent": "mvmnt_root",
-            "child": "colid_mvmnt"
-        },
-        {
-            "parent": "mvmnt_root",
-            "child": "mblt_mvmnt"
-        },
-        {
-            "parent": "mvmnt_root",
-            "child": "jmov_mvmnt"
-        },
-        {
-            "parent": "jmov_mvmnt",
-            "child": "jtraj_jmov"
-        },
-        {
-            "parent": "jtraj_jmov",
-            "child": "pnp_jtraj"
-        },
-        {
-            "parent": "mvmnt_root",
-            "child": "colav_mvmnt"
-        },
-        {
-            "parent": "pc_root",
-            "child": "sgmnt_pc"
-        },
-        {
-            "parent": "sgmnt_pc",
-            "child": "obs_sgmnt"
-        },
-        {
-            "parent": "sgmnt_pc",
-            "child": "rgn_sgmnt"
-        },
-        {
-            "parent": "obj_dtktn",
-            "child": "drfsmd_obj"
-        },
-        {
-            "parent": "obj_dtktn",
-            "child": "ujottl_obj"
         }
+        
     ],
     "last_update": ""
 }
