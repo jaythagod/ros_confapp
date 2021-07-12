@@ -2,14 +2,17 @@
     "projects": [
         {
             "name": "test",
+            "mode":"",
             "status": 0
         },
         {
             "name": "test2",
+            "mode":"",
             "status": 0
         },
         {
             "name": "johndoe",
+            "mode":"",
             "status": 1
         }
     ]
