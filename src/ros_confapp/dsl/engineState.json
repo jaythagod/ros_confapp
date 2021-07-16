@@ -2,18 +2,28 @@
     "projects": [
         {
             "name": "test",
-            "mode":"",
+            "mode": "",
             "status": 0
         },
         {
             "name": "test2",
-            "mode":"",
+            "mode": "",
             "status": 0
         },
         {
             "name": "johndoe",
-            "mode":"",
+            "mode": "late",
             "status": 1
+        },
+        {
+            "name": "customera",
+            "mode": "",
+            "status": 0
+        },
+        {
+            "name": "example",
+            "mode": "",
+            "status": 0
         }
     ]
 }

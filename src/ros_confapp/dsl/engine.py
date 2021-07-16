@@ -144,3 +144,6 @@ class Engine(DslState, ErrorCodes):
 
         if cmd[0] == "config":
             getattr(cmdexec, cmd[0])(cmd)
+
+        if cmd[0] == "config_mode_set":
+            getattr(cmdexec, cmd[0])(cmd)

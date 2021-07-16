@@ -17,14 +17,19 @@ class Loader(Engine):
         if len(sys.argv) < 2:
         #activate console mode
             while(True):
-                dcflibPrompt = "dcflib >> "
-                cmd = self.sanitizeCommand(input(self._consolePrompt)) 
-                if cmd[0] in self.dslCommands:
+                #dcflibPrompt = "dcflib >> "
+                cmdline = input(self._consolePrompt)
+                if not cmdline or cmdline[0] == '#' or len(cmdline) == 0:
+                        continue
                     #handle exit command
-                    if cmd[0] == 'exit':
-                        confirmation = self.sanitizeInputs(input(self._consolePrompt +" Confirm exit (y/n): "))
-                        if confirmation == 'y':
-                            break
+                elif cmdline.strip().lower() == 'exit':
+                    confirmation = self.sanitizeCommand(input(self._consolePrompt +" Confirm exit (y/n): "))
+                    if confirmation[0] == 'y' or confirmation[0]=='Y':
+                        break
+                else:
+                    cmd = self.sanitizeCommand(cmdline)
+                    self.interpret(cmd)
+            
             else:
                 pass
                 #handle invalid commands
