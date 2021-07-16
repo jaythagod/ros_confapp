@@ -3,6 +3,7 @@ import os
 import shutil
 
 from ros_confapp.dsl.dslState import DslState
+
 #from ros_confapp.dsl.documentation import Documentation
 #from dsl.config import Configuration
 
@@ -10,7 +11,7 @@ class CmdExec(DslState):
     def __init__(self):
         DslState.__init__(self)
         #Documentation.__init__(self)
-        self._usrProjectsDir = os.path.dirname(os.path.abspath('model/usr/base'))
+        self._usrProjectsDir = os.path.dirname(os.path.abspath('../model/usr/base'))
         self._stringPath = ""
         self._traverseGuide = []
         self._lookupDataSet = []
@@ -20,7 +21,7 @@ class CmdExec(DslState):
         for proj in engState['projects']:
             if proj['status'] == 1:
                 print('|')
-                print('|--'+ proj['name']+' [Active]')
+                print('|--'+ proj['name']+' [status=Active][mode='+proj['mode']+']')
             else:
                 print('|')
                 print('|--'+ proj['name'])
@@ -63,11 +64,13 @@ class CmdExec(DslState):
     def show(self, param):
         if param == "all":
             self.treePrint()
+            print("\n\tNotation:[ + = Mandatory, # = Alternative, o = Optional, x = Static, > = Dynamic ]")
         else:
             self.buildPath(param)
             model = self.readModel()
             featureReq = eval("model"+self._stringPath)
             self.printSubtree(featureReq)
+            print("\n\tNotation:[ + = Mandatory, # = Alternative, o = Optional, x = Static, > = Dynamic ]")
 
     def load(self, modelName):
         engState = self.getEngineState()
@@ -84,13 +87,29 @@ class CmdExec(DslState):
         else:
             projFolder = self._usrProjectsDir+ "\\"+ modelName
             os.mkdir(projFolder)
-            srcFile = os.path.dirname(os.path.abspath('model/usr/base/base.json'))
+            srcFile = os.path.dirname(os.path.abspath('../model/usr/base/base.json'))
             srcFileBase = os.path.join(srcFile, 'base.json')
             srcFileIndex = os.path.join(srcFile, 'index.json')
             shutil.copy(srcFileBase, projFolder)
             shutil.copy(srcFileIndex, projFolder)
             self.updateDslState(modelName)
             print(f'{modelName} project created successfully')
+
+
+    def enforceXORConstraint(self, featureID):
+        parentID = self.getFeatureParent(featureID)
+        childrenIDArray = self.getFeatureChildren(parentID)
+        cleanChildren = []
+        for child in childrenIDArray:
+            if child != featureID:
+                cleanChildren.append(child)
+        
+        model = self.readModel()
+        for cleanChild in cleanChildren:
+            self.buildPath(cleanChild)
+            exec("model"+self._stringPath+"['props']['status'] = False")
+
+        self.saveModel(model)
 
 
     def toggle(self, featureID):
@@ -111,6 +130,25 @@ class CmdExec(DslState):
         self.saveModel(model)
         print(f'**Feature({featureID}) toggled {action}**')
 
+    def getFeatureParent(self, featureId):
+        lookupData = self.readIndexLookup()
+        for featureState in lookupData['mappings']:
+            if featureState['child'] == featureId:
+                return featureState['parent']
+
+    def getFeatureChildren(self, parentId):
+        childrenArray = []
+        lookupData = self.readIndexLookup()
+        for featureState in lookupData['mappings']:
+            if featureState['parent'] == parentId:
+                childrenArray.append(featureState['child'])
+        return childrenArray
+
+    def getActiveModel(self):
+        engstate = self.getEngineState()
+        for project in engstate['projects']:
+            if project['status'] == 1:
+                return project['name']
 
     def updateDslState(self, pname):
         stateStore = {"name": pname, "mode":"", "status": 0}
@@ -171,8 +209,22 @@ class CmdExec(DslState):
         if "sub" in activeModel:
             self.printSubtree(activeModel)
 
-    def printSubtree(self, subArray, level=''):
-        print(f'{level}|-- '+ subArray['name'])
+    def printSubtree(self, subArray, level='', desc='', mode=''):
+        if "props" in subArray:
+            if subArray['props']['relationship'] == "AND":
+                    desc += "+"
+            elif subArray['props']['relationship'] == "OR":
+                    desc += "o"
+            elif subArray['props']['relationship'] == "XOR":
+                    desc += "#"
+
+            if subArray['props']['mode'] == "Static":
+                    mode += "x"
+            elif subArray['props']['mode'] == "Dynamic":
+                    mode += ">"
+        
+        print(f'{level}|{desc}--{mode} '+ subArray['name'] + '--{id: '+ subArray['id']+'}')
+        
         if "sub" in subArray:
             level += '\t'
             for sub in subArray['sub']:
@@ -181,3 +233,17 @@ class CmdExec(DslState):
     def config(self, commandArray):
         print(commandArray[0])
         return commandArray[0]+'_'+commandArray[1]
+
+    def config_mode_set(self, commandArray):
+        cmdParam = commandArray[1]
+        if cmdParam.lower() == "early" or cmdParam.lower() == "late":
+            engstate = self.getEngineState()
+            for project in engstate['projects']:
+                if project['status'] == 1:
+                    project['mode'] = cmdParam.lower()
+            self.saveEngineState(engstate)
+        else:
+            print("Invalid mode parameter. Parameter must be set to either 'early' or 'late'")
+
+    def unpackAndSaveIndexLookup():
+        pass
