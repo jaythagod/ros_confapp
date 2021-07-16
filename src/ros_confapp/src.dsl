@@ -12,7 +12,7 @@
 
 #remove ujottl_obj
 
-#create new johndoe
+#create new zero
 
 #load johndoe
 
