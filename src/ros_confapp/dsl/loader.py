@@ -1,34 +1,76 @@
 #!/usr/bin/env python
 import sys
 
+try:
+    import readline
+except ImportError:
+    import pyreadline as readline
+
 from ros_confapp.dsl.engine import Engine
+
+class PromptSelecter(Engine):
+    def __init__(self):
+        Engine.__init__(self)
+        self._consolePrompt = "dcflib "
+        
+
+    def buildPromptActiveConfig(self):
+        engState = self.getEngineState()
+        for project in engState['projects']:
+            if project['status'] == 1:
+                currentActiveConfig = "["+project['name']+"]"
+                self._consolePrompt += currentActiveConfig
+        self._consolePrompt += ">>"
+
+
 
 
 class Loader(Engine):
     def __init__(self):
         Engine.__init__(self)
-        self._consolePrompt = "dcflib >> "
+        
 
     def sanitizeCommand(self, cmd):
         sanitized = cmd.strip().lower()
         return sanitized.split()
 
+    def getListOfFeatureIds(self):
+        allProps = self.readProps()
+        allIds = [prop['id'] for prop in allProps['properties']]
+        return allIds
+
+
+    def idCompleter(self, text, state):
+        fids = self.getListOfFeatureIds()
+        options = [fid for fid in fids if fid.startswith(text)]
+        if state < len(options):
+            return options[state]
+        else:
+            return None
+
+    
     def launch(self):
+        readline.parse_and_bind("tab: complete")
+        readline.set_completer(self.idCompleter)
+
         if len(sys.argv) < 2:
         #activate console mode
             while(True):
-                #dcflibPrompt = "dcflib >> "
-                cmdline = input(self._consolePrompt)
+                prompt = PromptSelecter()
+                prompt.buildPromptActiveConfig()
+                cmdline = input(prompt._consolePrompt)
+                
                 if not cmdline or cmdline[0] == '#' or len(cmdline) == 0:
                         continue
                     #handle exit command
                 elif cmdline.strip().lower() == 'exit':
-                    confirmation = self.sanitizeCommand(input(self._consolePrompt +" Confirm exit (y/n): "))
+                    confirmation = self.sanitizeCommand(input(prompt._consolePrompt +" Confirm exit (y/n): "))
                     if confirmation[0] == 'y' or confirmation[0]=='Y':
                         break
                 else:
                     cmd = self.sanitizeCommand(cmdline)
                     self.interpret(cmd)
+                             
             
             else:
                 pass

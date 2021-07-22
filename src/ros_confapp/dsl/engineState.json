@@ -1,29 +1,16 @@
 {
     "projects": [
         {
-            "name": "test",
-            "mode": "",
-            "status": 0
-        },
-        {
-            "name": "test2",
-            "mode": "",
-            "status": 0
-        },
-        {
-            "name": "johndoe",
-            "mode": "late",
-            "status": 1
-        },
-        {
-            "name": "customera",
-            "mode": "",
-            "status": 0
-        },
-        {
+            "id": "f1047e16e92711eb92c7d45d645b91b9",
             "name": "example",
             "mode": "",
             "status": 0
+        },
+        {
+            "id": "a373afb3e95211eb9c0fd45d645b91b9",
+            "name": "zero",
+            "mode": "",
+            "status": 1
         }
     ]
 }
