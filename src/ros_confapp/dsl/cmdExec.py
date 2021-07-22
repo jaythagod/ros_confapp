@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import os
 import shutil
+import uuid
+from distutils.util import strtobool
 
 from ros_confapp.dsl.dslState import DslState
 
@@ -29,12 +31,55 @@ class CmdExec(DslState):
     def remove(self, paramList):
         model = self.readModel()
         remCmdList = self.validateRemoveCommandStructure(paramList)
+
         if len(remCmdList[0]) > 0:
-            exec("del model"+remCmdList[1])
-        self.saveModel(model)
-        print(f'--Feature({remCmdList[0][1]}) removed')
+            confirmation = input(f' Confirm feature[{remCmdList[0][1]}] REMOVAL (y/n): ')
+
+            if confirmation[0] == 'y' or confirmation[0]=='Y':
+                exec("del model"+remCmdList[1])
+                self.removalCleanup(remCmdList[0][1])
+                self.saveModel(model)
+                print(f'--Feature({remCmdList[0][1]}) removed')
+            else:
+                print(f'--Feature({remCmdList[0][1]}) removal CANCELLED')
+
+    def removalCleanup(self, featureId):
+        self.removeIndex(featureId)
+        self.removeProps(featureId)
+
+
+    def removeIndex(self, featureId):
+        counter = 0
+        deleteIndex = None
+        indexList = self.readIndexLookup()
+
+        for index in indexList['mappings']:
+            if index['child'] == featureId:
+                deleteIndex = counter
+            counter += 1
+
+        del indexList['mappings'][deleteIndex]
+        self.saveIndexLookup(indexList)
+        print(f'\t--Feature({featureId}) index reference removed')
+
+
+    def removeProps(self, featureId):
+        counter = 0
+        deleteIndex = None
+        propsList = self.readProps()
+
+        for prop in propsList['properties']:
+            if prop['id'] == featureId:
+                deleteIndex = counter
+            counter += 1
+
+        del propsList['properties'][deleteIndex]
+        self.saveProps(propsList)
+        print(f'\t--Feature({featureId}) properties reference removed')
+
 
     def validateRemoveCommandStructure(self, dslCommand):
+        self.resetPath()
         removeRule = self.returnSingleLexRule("remove")
         if len(dslCommand) == removeRule['length']:
             self.buildPath(dslCommand[1])
@@ -42,56 +87,119 @@ class CmdExec(DslState):
         else:
             self.printError(50)
 
-    def add(self, addPoint, objectAddition):
+
+    def add_feature(self, addPoint, objectAddition):
         self.executeFeatureAddition(addPoint, objectAddition)
+
 
     def executeFeatureAddition(self, featureID, additionArray):
         self.buildPath(featureID)
         model = self.readModel()
         index = self.readIndexLookup()
+        props = self.readProps()
         #check if 'sub' key exists in model object
         #TODO: Enforce XOR in alternative features
         if eval("'sub' in model"+self._stringPath):
             exec("model"+self._stringPath+"['sub'].append("+additionArray[0]+")")
-            exec("index['mappings'].append("+additionArray[1]+')')
+            exec("index['mappings'].append("+additionArray[2]+')')
+            exec("props['properties'].append("+additionArray[1]+')')
         else:
             exec("model"+self._stringPath+"['sub'] = ["+additionArray[0]+"]")
-            exec("index['mappings'].append("+additionArray[1]+')')
+            exec("index['mappings'].append("+additionArray[2]+')')
+            exec("props['properties'].append("+additionArray[1]+')')
         self.saveModel(model)
         self.saveIndexLookup(index)
+        self.saveProps(props)
         print(f'**Feature added to ({featureID})**')
+        
+
+
+    def alter_feature(self, alterParamSet):
+        self.executeFeatureAlter(alterParamSet)
+
+
+    def executeFeatureAlter(self, alterParamSet):
+        featureID = alterParamSet.pop()
+        
+        featureExists = self.verifyFeatureExistence(featureID)
+        if featureExists:
+            props = self.readProps()
+            
+            for prop in props['properties']:
+                if prop['id'] == featureID:
+                    for param in alterParamSet:
+                        paramSplit = param.split('=')
+                        if paramSplit[0] == 'type':
+                            prop['props'][paramSplit[0]] = paramSplit[1].lower().capitalize()
+                        elif paramSplit[0] == 'rel':
+                            prop['props']['relationship'] = paramSplit[1].upper()
+                            if paramSplit[1].upper() == 'OR':
+                                prop['props']['description'] = 'Optional'
+                            elif paramSplit[1].upper() == 'AND':
+                                prop['props']['description'] = 'Mandatory'
+                            elif paramSplit[1].upper() == 'XOR':
+                                prop['props']['description'] = 'Alternative'
+                        elif paramSplit[0] == 'time':
+                            prop['props'][paramSplit[0]] = paramSplit[1].lower().capitalize()
+                        elif paramSplit[0] == 'mode':
+                            prop['props'][paramSplit[0]] = paramSplit[1].lower().capitalize()
+                        elif paramSplit[0] == 'status':
+                            statusVal = strtobool(paramSplit[1].lower())
+                            prop['props'][paramSplit[0]] = bool(statusVal)
+
+
+            self.saveProps(props)
+            print(f'Feature **{featureID}** altered successfully')
+        else:
+            print(f'Command Execution Failed: Attempting to alter nonexistent feature with ID: {featureID}')
+
+
+    def resetPath(self):
+        self._stringPath = ""
+        self._traverseGuide = []
+        self._lookupDataSet = []
 
     def show(self, param):
         if param == "all":
             self.treePrint()
-            print("\n\tNotation:[ + = Mandatory, # = Alternative, o = Optional, x = Static, > = Dynamic ]")
+            print("\n\tNotation:[ + = Mandatory, # = Alternative, o = Optional, x = Static, > = Dynamic, * = Off ]")
         else:
             self.buildPath(param)
             model = self.readModel()
             featureReq = eval("model"+self._stringPath)
             self.printSubtree(featureReq)
-            print("\n\tNotation:[ + = Mandatory, # = Alternative, o = Optional, x = Static, > = Dynamic ]")
+            print("\n\tNotation:[ + = Mandatory, # = Alternative, o = Optional, x = Static, > = Dynamic, * = Off ]")
 
-    def load(self, modelName):
+    def activate_config(self, modelName):
         engState = self.getEngineState()
         for project in engState['projects']:
             if project['name'] == modelName:
                 project['status'] = 1
-                print(f'{modelName} project loaded successfully')
-            project['status'] = 0
+            else:
+                project['status'] = 0
+        print(f'{modelName} project loaded successfully')
         self.saveEngineState(engState)
 
-    def create(self, modelName):
+
+    def create_default_config(self, modelName):
         if os.path.exists(self._usrProjectsDir+ "\\"+ modelName):
             print("Model name already exists. Choose another model name")
         else:
+            #Initialise new model
             projFolder = self._usrProjectsDir+ "\\"+ modelName
             os.mkdir(projFolder)
             srcFile = os.path.dirname(os.path.abspath('../model/usr/base/base.json'))
             srcFileBase = os.path.join(srcFile, 'base.json')
             srcFileIndex = os.path.join(srcFile, 'index.json')
+            srcFileProps = os.path.join(srcFile, 'props.json')
             shutil.copy(srcFileBase, projFolder)
             shutil.copy(srcFileIndex, projFolder)
+            shutil.copy(srcFileProps, projFolder)
+            #Create extracts folder
+            snippetsSrc = os.path.dirname(os.path.abspath('../featx/extracts/base/main.py'))
+            dstMain = os.path.dirname(os.path.abspath('../featx/extracts/base'))
+            snippetsDst = dstMain+ "\\"+ modelName
+            shutil.copytree(snippetsSrc, snippetsDst)
             self.updateDslState(modelName)
             print(f'{modelName} project created successfully')
 
@@ -113,28 +221,26 @@ class CmdExec(DslState):
 
 
     def toggle(self, featureID):
+        props = self.readProps()
+            
+        for prop in props['properties']:
+            if prop['id'] == featureID:
+                if prop['props']['status'] == True:
+                    prop['props']['status'] = False
+                    print(f'Feature {featureID} toggled OFF')
+                else:
+                    prop['props']['status'] = True
+                    print(f'Feature {featureID} toggled ON')
+        #Save update            
+        self.saveProps(props)
 
-        self.buildPath(featureID)
-        model = self.readModel()
-       
-        featStatus = eval("model"+self._stringPath+"['props']['status']")
-
-        if featStatus == True:
-            #toggle feature status off
-            exec("model"+self._stringPath+"['props']['status'] = False")
-            action = 'off'
-        else:
-            #toggle feature status on
-            exec("model"+self._stringPath+"['props']['status'] = True")
-            action = 'on'
-        self.saveModel(model)
-        print(f'**Feature({featureID}) toggled {action}**')
 
     def getFeatureParent(self, featureId):
         lookupData = self.readIndexLookup()
         for featureState in lookupData['mappings']:
             if featureState['child'] == featureId:
                 return featureState['parent']
+
 
     def getFeatureChildren(self, parentId):
         childrenArray = []
@@ -144,14 +250,17 @@ class CmdExec(DslState):
                 childrenArray.append(featureState['child'])
         return childrenArray
 
+
     def getActiveModel(self):
         engstate = self.getEngineState()
         for project in engstate['projects']:
             if project['status'] == 1:
                 return project['name']
 
+
     def updateDslState(self, pname):
-        stateStore = {"name": pname, "mode":"", "status": 0}
+        confid = uuid.uuid1()
+        stateStore = {"id": confid.hex, "name": pname, "mode":"", "status": 0}
         estate = self.getEngineState()
         estate['projects'].append(stateStore)
         self.saveEngineState(estate)
@@ -160,10 +269,13 @@ class CmdExec(DslState):
     def loadLookupData(self):
         self._lookupDataSet = self.readIndexLookup()
 
+
     def buildPath(self, entryPoint):
+        self.resetPath()
         self.loadLookupData()
         topOfTree = "root_bot"
         currentPtr = entryPoint
+        
         while currentPtr != topOfTree:
             newCurrentPtr = self.findNextStep(currentPtr)
             currentPtr = newCurrentPtr
@@ -204,26 +316,39 @@ class CmdExec(DslState):
         else:
             self.subsetManual(queryCommand)
 
+    def getProperties(self, featureID):
+        allProps = self.readProps()
+
+        for prop in allProps['properties']:
+            if prop['id'] == featureID:
+                return prop
+
+
     def treePrint(self):
         activeModel = self.readModel()
         if "sub" in activeModel:
             self.printSubtree(activeModel)
 
-    def printSubtree(self, subArray, level='', desc='', mode=''):
-        if "props" in subArray:
-            if subArray['props']['relationship'] == "AND":
+    def printSubtree(self, subArray, level='', desc='', mode='', stat=''):
+        propGet = self.getProperties(subArray['id'])
+        
+        if propGet != None:
+            if propGet['props']['relationship'] == "AND":
                     desc += "+"
-            elif subArray['props']['relationship'] == "OR":
+            elif propGet['props']['relationship'] == "OR":
                     desc += "o"
-            elif subArray['props']['relationship'] == "XOR":
+            elif propGet['props']['relationship'] == "XOR":
                     desc += "#"
 
-            if subArray['props']['mode'] == "Static":
+            if propGet['props']['mode'] == "Static":
                     mode += "x"
-            elif subArray['props']['mode'] == "Dynamic":
+            elif propGet['props']['mode'] == "Dynamic":
                     mode += ">"
-        
-        print(f'{level}|{desc}--{mode} '+ subArray['name'] + '--{id: '+ subArray['id']+'}')
+
+            if propGet['props']['status'] == False:
+                stat = '*'
+           
+        print(f'{level}|{desc}--{mode} '+ subArray['name'] + '--{id: '+ subArray['id']+'}'+f'{stat}')
         
         if "sub" in subArray:
             level += '\t'
@@ -245,5 +370,24 @@ class CmdExec(DslState):
         else:
             print("Invalid mode parameter. Parameter must be set to either 'early' or 'late'")
 
-    def unpackAndSaveIndexLookup():
-        pass
+    def select(self, cmdList):
+        selectPoints = []
+        selStatement = cmdList.pop(0)
+        allprops = self.readProps()
+        pindex = 0
+
+        for prop in allprops['properties']:
+            if prop['id'] in cmdList:
+                selectPoints.append(pindex)
+            pindex += 1
+
+        updatedProps = self.bulkSelect(allprops, selectPoints)
+        self.saveProps(updatedProps)
+
+    def bulkSelect(self, allprops, popIndexList):
+        for index in popIndexList:
+            allprops['properties'][index]['props']['status'] = True
+            featureId = allprops['properties'][index]['id']
+            print(f'---Feature {featureId} selected')
+        return allprops
+

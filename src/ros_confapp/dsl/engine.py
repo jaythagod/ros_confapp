@@ -15,7 +15,7 @@ class Engine(DslState, ErrorCodes):
         if self.lexicalStructure(cmd):
             #create and load commands doesnot require an active project selection
             self.grammar(cmd)
-            if cmd[0] == "create" or cmd[0] == "load":
+            if cmd[0] == "create_default_config" or cmd[0] == "activate_config":
                 self.runCommand(cmd)
             else:
                 if self.checkActiveProject():
@@ -62,45 +62,71 @@ class Engine(DslState, ErrorCodes):
             pass
 
     def validateAddCommandStructure(self, dslCommand):
-        #add command block begin
-        if dslCommand[0] == 'add':
+        if dslCommand[0] == 'add_feature':
             if 'to' not in dslCommand:
                 self.printError(20)
             else:
-                paramsCheck = []
-                for element in dslCommand:
-                    result = element.split('=')
-                    if len(result) == 2:
-                        paramsCheck.append(result[0])
-                        if result[0] == 'name':
-                            name = result[1].capitalize()
-                        elif result[0] == 'type':
-                            type = result[1].capitalize()
-                        elif result[0] == 'rel':
-                            rel = result[1].upper()
+                #return array of feature, props and index object
+                featurePropsIndexObject = self.buildAddFeatureObject(dslCommand[-1], dslCommand[1])
+                return featurePropsIndexObject
+    
+    def validateAlterFeature(self, dslCommand):
+        paramsCheck = []
+        allowedTypes = ['concrete','abstract']
+        allowedRels = ['and','or','xor']
+        allowedModes = ['static','dynamic']
+        allowedTimes = ['early','late']
+        allowedStatus = ['true', 'false']
+        alterRule = self.returnSingleLexRule("alter_feature")
+        #check for invalid command parameters
+        for element in dslCommand:
+            result = element.split('=')
+            if len(result) == 2:
+                if result[0] in alterRule['params']:
+                    #check command parameter values
+                    if result[0] == "type":
+                        if result[1] in allowedTypes:
+                            paramsCheck.append(element)
+                        else:
+                            print(f'List of allowed type values: {allowedTypes}')
 
-                addRule = self.returnSingleLexRule("add")
-                if paramsCheck == addRule['params']:
-                    builtFeatureObjectList = self.buildAddObject(dslCommand[-1], name, type, rel)
-                    return builtFeatureObjectList
+                    if result[0] == "rel":
+                        if result[1] in allowedRels:
+                            paramsCheck.append(element)
+                        else:
+                            print(f'List of allowed rel values: {allowedRels}')
+
+                    if result[0] == "mode":
+                        if result[1] in allowedModes:
+                            paramsCheck.append(element)
+                        else:
+                            print(f'List of allowed mode values: {allowedModes}')
+
+                    if result[0] == "time":
+                        if result[1] in allowedTimes:
+                            paramsCheck.append(element)
+                        else:
+                            print(f'List of allowed time values: {allowedTimes}')
+
+                    if result[0] == "status":
+                        if result[1] in allowedStatus:
+                            paramsCheck.append(element)
+                        else:
+                            print(f'List of allowed status values: {allowedStatus}')
                 else:
-                    self.printError(30)
+                    print(f'{result[0]} is not a valid alter_feature command parameter')
+                    return "val_error"
+        paramsCheck.append(dslCommand[1])
+        return paramsCheck
 
+    def buildAddFeatureObject(self, parentID, childName):
+        
+        generatedChildFeatureID = self.generateNewUniqueFeatureID(parentID)
 
-    def buildAddObject(self, parent, name='', type='', rel=''):
-        desc = ''
-        if rel == 'AND':
-            desc = 'Mandatory'
-        elif rel == 'OR':
-            desc = 'Optional'
-        elif rel == 'XOR':
-            desc == 'Optional'
-
-        fid = self.generateNewUniqueFeatureID(parent)
-
-        featureStringBuild = f'{{"id":"{fid}", "name": "{name}", "props": {{"type": "{type}", "description": "{desc}", "relationship":"{rel}", "status": True}} }}'
-        indexStringBuild = f'{{"parent":"{parent}", "child":"{fid}"}}'
-        return [featureStringBuild, indexStringBuild]       
+        featureStringBuild = f'{{"id":"{generatedChildFeatureID}", "name": "{childName}"}}'
+        propsStringBuild = f'{{"id":"{generatedChildFeatureID}", "props": {{"type": "", "description": "", "relationship":"", "mode":"", "time":"", "status": False}} }}'
+        indexStringBuild = f'{{"parent":"{parentID}", "child":"{generatedChildFeatureID}"}}'
+        return [featureStringBuild, propsStringBuild, indexStringBuild]       
 
     def generateNewUniqueFeatureID(self, parent):
         parent = parent +'abcdefghijklmnopqrstuv'
@@ -113,10 +139,10 @@ class Engine(DslState, ErrorCodes):
         return newStr+'_'+pname
 
     def runCommand(self, cmd):
-        if cmd[0] == "create":
-            getattr(cmdexec, cmd[0])(cmd[2])
+        if cmd[0] == "create_default_config":
+            getattr(cmdexec, cmd[0])(cmd[1])
 
-        if cmd[0] == "load":
+        if cmd[0] == "activate_config":
             getattr(cmdexec, cmd[0])(cmd[1])
 
         if cmd[0] == "show":
@@ -125,12 +151,17 @@ class Engine(DslState, ErrorCodes):
         if cmd[0] == "man":
             getattr(cmdexec, cmd[0])(cmd[1])
 
-        if cmd[0] == "add":
+        if cmd[0] == "add_feature":
             featureBuild = self.validateAddCommandStructure(cmd)
+            
             if 'id' in featureBuild[0]:
                 getattr(cmdexec, cmd[0])(cmd[-1], featureBuild)
             else:
                 self.printError(40)
+
+        if cmd[0] == "alter_feature":
+            alterSet = self.validateAlterFeature(cmd)
+            getattr(cmdexec, cmd[0])(alterSet)
 
         if cmd[0] == "ls":
             try:
@@ -139,7 +170,17 @@ class Engine(DslState, ErrorCodes):
             except:
                 return 0
 
+        if cmd[0] == "toggle":
+            isVerified = self.verifyFeatureExistence(cmd[1])
+            if isVerified:
+                getattr(cmdexec, cmd[0])(cmd[1])
+            else:
+                print(f'Feature {cmd[1]} does not exist. Enter a valid feature ID')
+
         if cmd[0] == "remove":
+            getattr(cmdexec, cmd[0])(cmd)
+
+        if cmd[0] == "select":
             getattr(cmdexec, cmd[0])(cmd)
 
         if cmd[0] == "config":

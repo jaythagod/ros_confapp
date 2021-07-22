@@ -4,83 +4,28 @@
   "sub":[{
           "id":"ctrl_root",
           "name": "Control",
-          "props": {
-              "type":"Abstract",
-              "description": "Mandatory",
-              "relationship":"AND",
-              "mode":"Static",
-              "time":"Early",
-              "status": true
-          },
           "sub":[{
               "id":"top_ctrl",
-              "name": "Teleoperation",
-              "props": {
-              "type":"Concrete",
-              "description": "Optional",
-              "relationship":"OR",
-              "mode":"Static",
-              "time":"Early",
-              "status": true
-            }
+              "name": "Teleoperation"
           }]
       },
       {
           "id":"nav_root",
           "name": "Navigation",
-          "props": {
-              "type":"Abstract",
-              "description": "Mandatory",
-              "relationship":"AND",
-              "mode":"Static",
-              "time":"Early",
-              "status": true
-          },
           "sub":[{
                   "id":"pathp_nav",
-                  "name": "Path Planning",
-                  "props": {
-                  "type":"Concrete",
-                  "description": "Mandatory",
-                  "mode":"Static",
-                  "time":"Early",
-                  "status": true
-                  }
+                  "name": "Path Planning"
                 }]
       },
       {
           "id":"cv_root",
           "name": "Computer Vision",
-          "props": {
-              "type":"Abstract",
-              "description": "Mandatory",
-              "relationship":"AND",
-              "mode":"Static",
-              "time":"Early",
-              "status": true
-          },
           "sub":[{
                   "id":"dtktn_cv",
                   "name": "Detection",
-                  "props": {
-                  "type":"Abstract",
-                  "description": "Mandatory",
-                  "relationship":"AND",
-                  "mode":"Static",
-                  "time":"Early",
-                  "status": true
-                  },
                 "sub":[{
                       "id":"obj_dtktn",
-                      "name": "Object Detection",
-                      "props": {
-                      "type":"Concrete",
-                      "description": "Mandatory",
-                      "relationship":"AND",
-                      "mode":"Static",
-                      "time":"Early",
-                      "status": false
-                      }
+                      "name": "Object Detection"
                   }]
                   
               }]
@@ -89,97 +34,33 @@
       {
           "id":"pos_root",
           "name": "Pose",
-          "props": {
-              "type":"Abstract",
-              "description": "Mandatory",
-              "relationship":"AND",
-              "mode":"Static",
-              "time":"Early",
-              "status": true
-          },
           "sub":[{
               "id":"mp_ps",
-              "name": "Mapping",
-              "props": {
-              "type":"Concrete",
-              "description": "Optional",
-              "relationship":"OR",
-              "mode":"Static",
-              "time":"Early",
-              "status": true
-            }
+              "name": "Mapping"
           },
           {
               "id":"ls_ps",
-              "name": "Localisation",
-              "props": {
-              "type":"Concrete",
-              "description": "Optional",
-              "relationship":"OR",
-              "mode":"Static",
-              "time":"Early",
-              "status": true
-            }
+              "name": "Localisation"
           },
           {
               "id":"slm_ps",
-              "name": "SLAM",
-              "props": {
-              "type":"Concrete",
-              "description": "Optional",
-              "relationship":"OR",
-              "mode":"Static",
-              "time":"Early",
-              "status": true
-            }
+              "name": "SLAM"
           }]
       },
        {
           "id":"mot_root",
           "name": "Motion",
-          "props": {
-              "type":"Abstract",
-              "description": "Mandatory",
-              "relationship":"AND",
-              "mode":"Static",
-              "time":"Early",
-              "status": true
-          },
           "sub":[{
               "id":"lctm_mot",
-              "name": "Locomotion",
-              "props": {
-              "type":"Concrete",
-              "description": "Optional",
-              "relationship":"OR",
-              "mode":"Static",
-              "time":"Early",
-              "status": true
-            }
+              "name": "Locomotion"
           },
           {
               "id":"cld_mot",
-              "name": "Collision Detection",
-              "props": {
-              "type":"Concrete",
-              "description": "Optional",
-              "relationship":"OR",
-              "mode":"Static",
-              "time":"Early",
-              "status": true
-            }
+              "name": "Collision Detection"
           },
           {
               "id":"atp_mot",
-              "name": "Arm To Point",
-              "props": {
-              "type":"Concrete",
-              "description": "Optional",
-              "relationship":"OR",
-              "mode":"Static",
-              "time":"Early",
-              "status": true
-            }
+              "name": "Arm To Point"
           }]
       }]
                   

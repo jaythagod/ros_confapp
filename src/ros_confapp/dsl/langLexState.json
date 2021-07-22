@@ -1,10 +1,11 @@
 {
     "lexicons":[
-        {"keyword":"create", "params":[], "structDep":["new"], "length": 3},
-        {"keyword":"load", "params":[], "structDep":[], "length": 2},
+        {"keyword":"create_default_config", "params":[], "structDep":[], "length": 2},
+        {"keyword":"activate_config", "params":[], "structDep":[], "length": 2},
         {"keyword":"ls", "params":[], "structDep":[], "length": 1},
         {"keyword":"toggle", "params":[], "structDep":[], "length": 2},
-        {"keyword":"add", "params":["name","type","rel"], "structDep":[], "length": 6},
+        {"keyword":"add_feature", "params":[], "structDep":[], "length": 4},
+        {"keyword":"alter_feature", "params":["time","mode","type","rel","status"], "structDep":[], "length": 7},
         {"keyword":"remove", "params":[], "structDep":[], "length": 2},
         {"keyword":"man", "params":[], "structDep":[], "length": 2},
         {"keyword":"exit", "params":[], "structDep":[], "length": 1},
