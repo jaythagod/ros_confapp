@@ -67,6 +67,19 @@ class DslState:
                 return index
         return False
 
+    def readProps(self):
+        eng = self.getEngineState()
+        for proj in eng['projects']:
+            if proj['status'] == 1:
+                activeproj = proj['name']
+                propsPath = os.path.dirname(os.path.abspath('../model/usr/'+activeproj+'/props.json'))
+                propsfile = os.path.join(propsPath, 'props.json')
+                dataFile = open(propsfile, 'r')
+                allprops = json.loads(dataFile.read())
+                dataFile.close()
+                return allprops
+        return False
+
     def saveModel(self, modelData):
         eng = self.getEngineState()
         for proj in eng['projects']:
@@ -86,3 +99,20 @@ class DslState:
                 lufile = os.path.join(luPath, 'index.json')
                 with open(lufile, 'w', encoding='utf-8') as f:
                     json.dump(indexMappings, f, ensure_ascii=False, indent=4)
+
+    def saveProps(self, properties):
+        eng = self.getEngineState()
+        for proj in eng['projects']:
+            if proj['status'] == 1:
+                activeproj = proj['name']
+                propsPath = os.path.dirname(os.path.abspath('../model/usr/'+activeproj+'/props.json'))
+                propsfile = os.path.join(propsPath, 'props.json')
+                with open(propsfile, 'w', encoding='utf-8') as f:
+                    json.dump(properties, f, ensure_ascii=False, indent=4)
+
+    def verifyFeatureExistence(self, featureID):
+        propList = self.readProps()
+        for prop in propList['properties']:
+            if prop['id'] == featureID:
+                return True
+        return False

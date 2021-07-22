@@ -59,8 +59,15 @@
         {
             "parent": "dtktn_cv",
             "child": "obj_dtktn"
+        },
+        {
+            "parent": "nav_root",
+            "child": "ourdki_nav"
+        },
+        {
+            "parent": "nav_root",
+            "child": "ogdeml_nav"
         }
-        
     ],
     "last_update": ""
 }
