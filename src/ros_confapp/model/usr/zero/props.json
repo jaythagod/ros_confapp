@@ -74,7 +74,7 @@
                 "relationship": "AND",
                 "mode": "Static",
                 "time": "Early",
-                "status": false
+                "status": true
             }
         },
         {
