@@ -11,7 +11,7 @@ from ros_confapp.dsl.engine import Engine
 class PromptSelecter(Engine):
     def __init__(self):
         Engine.__init__(self)
-        self._consolePrompt = "dcflib "
+        self._consolePrompt = "\ndcflib "
         
 
     def buildPromptActiveConfig(self):
@@ -65,8 +65,10 @@ class Loader(Engine):
                     #handle exit command
                 elif cmdline.strip().lower() == 'exit':
                     confirmation = self.sanitizeCommand(input(prompt._consolePrompt +" Confirm exit (y/n): "))
-                    if confirmation[0] == 'y' or confirmation[0]=='Y':
+                    if confirmation[0] == 'y' or confirmation[0] =='Y':
                         break
+                    elif confirmation[0] != 'n' and confirmation[0] != 'y':
+                        print("Invalid exit confirmation value provided. Try again")
                 else:
                     cmd = self.sanitizeCommand(cmdline)
                     self.interpret(cmd)
