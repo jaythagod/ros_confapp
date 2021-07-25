@@ -4,15 +4,16 @@ import shutil
 import uuid
 from distutils.util import strtobool
 
+from ros_confapp.dsl.documentation import Documentation
 from ros_confapp.dsl.dslState import DslState
 
-#from ros_confapp.dsl.documentation import Documentation
+
 #from dsl.config import Configuration
 
-class CmdExec(DslState):
+class CmdExec(DslState, Documentation):
     def __init__(self):
         DslState.__init__(self)
-        #Documentation.__init__(self)
+        Documentation.__init__(self)
         self._usrProjectsDir = os.path.dirname(os.path.abspath('../model/usr/base'))
         self._stringPath = ""
         self._traverseGuide = []
