@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import rospy
+from ros_confapp.srv import processConfigAction, processConfigActionRequest, processConfigActionResponse
 import sys
 
 try:
@@ -33,6 +35,21 @@ class Loader(Engine):
     def sanitizeCommand(self, cmd):
         sanitized = cmd.strip().lower()
         return sanitized.split()
+
+    def sendRequestOverService(self, commandExecMessage):
+
+        rospy.init_node("dsl_command_exec")
+        rospy.wait_for_service('get_cmd')
+        
+        try:
+            
+            core_config = rospy.ServiceProxy('get_cmd', processConfigAction)
+            respl = core_config(commandExecMessage)
+            return respl.feedback
+        except rospy.ServiceException as e:
+            rospy.loginfo("Service call failed")
+            rospy.loginfo(e)
+
 
     def getListOfFeatureIds(self):
         allProps = self.readProps()
@@ -72,7 +89,7 @@ class Loader(Engine):
                 else:
                     cmd = self.sanitizeCommand(cmdline)
                     self.interpret(cmd)
-                             
+                    self.sendRequestOverService(cmd[0])
             
             else:
                 pass
