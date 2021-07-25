@@ -9,6 +9,7 @@ class coreFeatureNode():
 
     def getExecutedCommand(self, req):
         rospy.loginfo('DSL Command Executed: {}'.format(req.cmd))
+        return "Message Acknowledged"
 
 def main():
     rospy.init_node("core_feature_server")
