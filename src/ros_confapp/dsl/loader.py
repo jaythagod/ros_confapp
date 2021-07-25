@@ -89,7 +89,7 @@ class Loader(Engine):
                 else:
                     cmd = self.sanitizeCommand(cmdline)
                     self.interpret(cmd)
-                    self.sendRequestOverService(cmd[0])
+                    #self.sendRequestOverService(cmd[0])
             
             else:
                 pass
