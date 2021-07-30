@@ -12,6 +12,9 @@
         {"keyword":"show", "params":[], "structDep":[], "length": 2},
         {"keyword":"select", "params":[], "structDep":[], "length": 0},
         {"keyword":"config", "params":[], "structDep":[], "length": 1},
+        {"keyword":"unload", "params":[], "structDep":[], "length": 2},
+        {"keyword":"load", "params":[], "structDep":[], "length": 2},
+        {"keyword":"ping", "params":[], "structDep":[], "length": 2},
         {"keyword":"config_mode_set", "params":[], "structDep":[], "length": 2}
     ]
 }
