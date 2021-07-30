@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import rospy
+import rostopic
 from ros_confapp.srv import processConfigAction, processConfigActionRequest, processConfigActionResponse
 import sys
 
@@ -13,10 +14,13 @@ from ros_confapp.dsl.engine import Engine
 class PromptSelecter(Engine):
     def __init__(self):
         Engine.__init__(self)
-        self._consolePrompt = "\ndcflib "
+        self._consolePrompt = "\ndcflib"
+        self.appMode = ""
         
 
     def buildPromptActiveConfig(self):
+        self.appModeCheck()
+        self._consolePrompt += "@"+self.appMode.upper()
         engState = self.getEngineState()
         for project in engState['projects']:
             if project['status'] == 1:
@@ -24,12 +28,22 @@ class PromptSelecter(Engine):
                 self._consolePrompt += currentActiveConfig
         self._consolePrompt += ">>"
 
+    def appModeCheck(self):
+        try:
+            rostopic.get_topic_class('/rosout')
+            self.appMode = "late"
+        except rostopic.ROSTopicIOException as masterNotFound:
+            self.appMode = "early"
+
 
 
 
 class Loader(Engine):
     def __init__(self):
         Engine.__init__(self)
+
+    def cmdServiceStringPrep(self, cmdList):
+        return cmdList[0]+" "+cmdList[1]
         
 
     def sanitizeCommand(self, cmd):
@@ -67,12 +81,14 @@ class Loader(Engine):
 
     
     def launch(self):
+        #TODO:print opening message, credit and short guide
         readline.parse_and_bind("tab: complete")
         readline.set_completer(self.idCompleter)
 
         if len(sys.argv) < 2:
         #activate console mode
             while(True):
+                lateCommands = ['load','unload']
                 prompt = PromptSelecter()
                 prompt.buildPromptActiveConfig()
                 cmdline = input(prompt._consolePrompt)
@@ -88,8 +104,10 @@ class Loader(Engine):
                         print("Invalid exit confirmation value provided. Try again")
                 else:
                     cmd = self.sanitizeCommand(cmdline)
-                    self.interpret(cmd)
-                    #self.sendRequestOverService(cmd[0])
+                    if cmd[0] not in lateCommands:
+                        self.interpret(cmd)
+                    prepedCmdString = self.cmdServiceStringPrep(cmd)
+                    self.sendRequestOverService(prepedCmdString)
             
             else:
                 pass
