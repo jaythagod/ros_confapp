@@ -15,6 +15,7 @@ class CmdExec(DslState, Documentation):
         DslState.__init__(self)
         Documentation.__init__(self)
         self._usrProjectsDir = os.path.dirname(os.path.abspath('../model/usr/base'))
+        self._usrLaunchDir = os.path.dirname(os.path.abspath('../launch/base.launch'))
         self._stringPath = ""
         self._traverseGuide = []
         self._lookupDataSet = []
@@ -24,7 +25,7 @@ class CmdExec(DslState, Documentation):
         for proj in engState['projects']:
             if proj['status'] == 1:
                 print('|')
-                print('|--'+ proj['name']+' [status=Active][mode='+proj['mode']+']')
+                print('|--'+ proj['name']+'**')
             else:
                 print('|')
                 print('|--'+ proj['name'])
@@ -188,6 +189,7 @@ class CmdExec(DslState, Documentation):
         else:
             #Initialise new model
             projFolder = self._usrProjectsDir+ "\\"+ modelName
+            launchFile = self._usrLaunchDir+"\\"+modelName+".launch"
             os.mkdir(projFolder)
             srcFile = os.path.dirname(os.path.abspath('../model/usr/base/base.json'))
             srcFileBase = os.path.join(srcFile, 'base.json')
@@ -201,6 +203,12 @@ class CmdExec(DslState, Documentation):
             dstMain = os.path.dirname(os.path.abspath('../featx/extracts/base'))
             snippetsDst = dstMain+ "\\"+ modelName
             shutil.copytree(snippetsSrc, snippetsDst)
+            #create project launch file
+            try:
+                open(launchFile, 'a').close()
+            except OSError:
+                print('Launch file creation failed')
+
             self.updateDslState(modelName)
             print(f'{modelName} project created successfully')
 
@@ -391,4 +399,25 @@ class CmdExec(DslState, Documentation):
             featureId = allprops['properties'][index]['id']
             print(f'---Feature {featureId} selected')
         return allprops
+
+    def load(self, featureID):
+        props = self.readProps()
+            
+        for prop in props['properties']:
+            if prop['id'] == featureID:  
+                prop['props']['status'] = True
+                print(f'Feature {featureID} loaded')   
+        #Save update            
+        self.saveProps(props)
+
+
+    def unload(self, featureID):
+        props = self.readProps()
+            
+        for prop in props['properties']:
+            if prop['id'] == featureID:  
+                prop['props']['status'] = False
+                print(f'Feature {featureID} unloaded')   
+        #Save update            
+        self.saveProps(props)
 

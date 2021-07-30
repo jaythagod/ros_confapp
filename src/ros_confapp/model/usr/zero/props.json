@@ -117,7 +117,7 @@
                 "description": "Alternative",
                 "relationship": "XOR",
                 "mode": "Static",
-                "time": "Early",
+                "time": "Late",
                 "status": true
             }
         },
@@ -161,7 +161,7 @@
                 "description": "Optional",
                 "relationship": "OR",
                 "mode": "Dynamic",
-                "time": "Early",
+                "time": "Late",
                 "status": true
             }
         }
