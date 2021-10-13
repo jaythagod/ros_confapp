@@ -56,4 +56,4 @@ class Bindings(DslState):
                 elif featurePropsObject['mode'].lower() == "dynamic" and featurePropsObject['time'].lower() == "late":
                     return True
             else:
-                print("Node service temporarirly unavailable for unload action. Restart Node.")
+                print("Node service temporarily unavailable for unload action. Restart Node.")

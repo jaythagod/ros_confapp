@@ -1,3 +1,0 @@
-<launch>
-    <node name="featx_interface" pkg="ros_confapp" type="featxCoreNode.py" output="screen"/>
-</launch>

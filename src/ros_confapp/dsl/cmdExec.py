@@ -15,7 +15,6 @@ class CmdExec(DslState, Documentation):
         DslState.__init__(self)
         Documentation.__init__(self)
         self._usrProjectsDir = os.path.dirname(os.path.abspath('../model/usr/base'))
-        self._usrLaunchDir = os.path.dirname(os.path.abspath('../launch/base.launch'))
         self._stringPath = ""
         self._traverseGuide = []
         self._lookupDataSet = []
@@ -164,13 +163,13 @@ class CmdExec(DslState, Documentation):
     def show(self, param):
         if param == "all":
             self.treePrint()
-            print("\n\tNotation:[ + = Mandatory, # = Alternative, o = Optional, x = Static, > = Dynamic, * = Off ]")
+            print("\n\tNotation:[ + = Mandatory, # = Alternative, o = Optional, OR = &, x = Static, > = Dynamic, * = Off ]")
         else:
             self.buildPath(param)
             model = self.readModel()
             featureReq = eval("model"+self._stringPath)
             self.printSubtree(featureReq)
-            print("\n\tNotation:[ + = Mandatory, # = Alternative, o = Optional, x = Static, > = Dynamic, * = Off ]")
+            print("\n\tNotation:[ + = Mandatory, # = Alternative, o = Optional, OR = &, x = Static, > = Dynamic, * = Off ]")
 
     def activate_config(self, modelName):
         engState = self.getEngineState()
@@ -189,12 +188,11 @@ class CmdExec(DslState, Documentation):
         else:
             #Initialise new model
             projFolder = self._usrProjectsDir+ "\\"+ modelName
-            launchFile = self._usrLaunchDir+"\\"+modelName+".launch"
             os.mkdir(projFolder)
-            srcFile = os.path.dirname(os.path.abspath('../model/usr/base/base.json'))
-            srcFileBase = os.path.join(srcFile, 'base.json')
+            srcFile = os.path.dirname(os.path.abspath('../model/usr/base/model.json'))
+            srcFileBase = os.path.join(srcFile, 'model.json')
             srcFileIndex = os.path.join(srcFile, 'index.json')
-            srcFileProps = os.path.join(srcFile, 'props.json')
+            srcFileProps = os.path.join(srcFile, 'config.json')
             shutil.copy(srcFileBase, projFolder)
             shutil.copy(srcFileIndex, projFolder)
             shutil.copy(srcFileProps, projFolder)
@@ -203,11 +201,6 @@ class CmdExec(DslState, Documentation):
             dstMain = os.path.dirname(os.path.abspath('../featx/extracts/base'))
             snippetsDst = dstMain+ "\\"+ modelName
             shutil.copytree(snippetsSrc, snippetsDst)
-            #create project launch file
-            try:
-                open(launchFile, 'a').close()
-            except OSError:
-                print('Launch file creation failed')
 
             self.updateDslState(modelName)
             print(f'{modelName} project created successfully')
@@ -338,26 +331,31 @@ class CmdExec(DslState, Documentation):
         if "sub" in activeModel:
             self.printSubtree(activeModel)
 
-    def printSubtree(self, subArray, level='', desc='', mode='', stat=''):
+    def printSubtree(self, subArray, level='', desc='', group='', mode='', stat=''):
         propGet = self.getProperties(subArray['id'])
         
         if propGet != None:
-            if propGet['props']['relationship'] == "AND":
+            if subArray['rel'] == "MAN":
                     desc += "+"
-            elif propGet['props']['relationship'] == "OR":
+            elif subArray['rel'] == "OPT":
                     desc += "o"
-            elif propGet['props']['relationship'] == "XOR":
-                    desc += "#"
+
+            if subArray['group'] == "XOR":
+                group += "x"
+            elif subArray['group'] == "OR":
+                group += '#'
+            elif subArray['group'] == "AND":
+                group += "&"
 
             if propGet['props']['mode'] == "Static":
-                    mode += "x"
-            elif propGet['props']['mode'] == "Dynamic":
                     mode += ">"
+            elif propGet['props']['mode'] == "Dynamic":
+                    mode += ">>"
 
             if propGet['props']['status'] == False:
                 stat = '*'
            
-        print(f'{level}|{desc}--{mode} '+ subArray['name'] + '--{id: '+ subArray['id']+'}'+f'{stat}')
+        print(f'{level}|{desc}--{mode}--{group} '+ subArray['name'] + '--{id: '+ subArray['id']+'}'+f'{stat}')
         
         if "sub" in subArray:
             level += '\t'

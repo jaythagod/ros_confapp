@@ -1,0 +1,292 @@
+{
+    "properties": [
+        {
+            "id": "oocje_root",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "gotsi_root",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "bhdtj_root",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "iqvtjg_bhdtj",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "vertnp_bhdtj",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "tlrehn_bhdtj",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "tarecd_gotsi",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "btgivd_tarecd",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "umevdg_tarecd",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "nrbsdk_oocje",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "oquglo_oocje",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "jgiocm_nrbsdk",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "qelhvp_oquglo",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "amvoec_oquglo",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "vtehli_oquglo",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "joetnk_oquglo",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "rqkbhe_oquglo",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "olbfug_qelhvp",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "ovongf_vtehli",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "dptoia_ovongf",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "fmbcun_rqkbhe",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "netejm_btgivd",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "ctdmtv_btgivd",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "ptiuct_btgivd",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "jdhdif_ctdmtv",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "otdimg_ctdmtv",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "gviekr_ctdmtv",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "mhyvlpn_umevdg",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "ajpzcbo_umevdg",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "znjmvuc_mhyvlpn",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "umzqvjv_mhyvlpn",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "egfuvsc_ajpzcbo",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "yuhejfl_znjmvuc",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "fmcrslo_znjmvuc",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "xukavjm_fmcrslo",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "jvxebvq_fmcrslo",
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        }
+    ]
+}

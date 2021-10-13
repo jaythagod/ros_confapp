@@ -1,0 +1,295 @@
+{
+    "id": "root_bot",
+    "name": "TiMo",
+    "type": "",
+    "group": "",
+    "rel": "",
+    "sub": [
+        {
+            "id": "oocje_root",
+            "name": "control",
+            "type": "Abstract",
+            "group": "OR",
+            "rel": "MAN",
+            "sub": [
+                {
+                    "id": "nrbsdk_oocje",
+                    "name": "teleoperation",
+                    "type": "Abstract",
+                    "group": "XOR",
+                    "rel": "MAN",
+                    "sub": [
+                        {
+                            "id": "jgiocm_nrbsdk",
+                            "name": "key_teleop",
+                            "type": "Concrete",
+                            "group": "AND",
+                            "rel": "OPT"
+                        }
+                    ]
+                },
+                {
+                    "id": "oquglo_oocje",
+                    "name": "autonomy",
+                    "type": "Abstract",
+                    "group": "XOR",
+                    "rel": "MAN",
+                    "sub": [
+                        {
+                            "id": "qelhvp_oquglo",
+                            "name": "head_control",
+                            "type": "Abstract",
+                            "group": "OR",
+                            "rel": "MAN",
+                            "sub": [
+                                {
+                                    "id": "olbfug_qelhvp",
+                                    "name": "look_to_point",
+                                    "type": "Concrete",
+                                    "group": "AND",
+                                    "rel": "OPT"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "amvoec_oquglo",
+                            "name": "base_control",
+                            "type": "Concrete",
+                            "group": "OR",
+                            "rel": "MAN"
+                        },
+                        {
+                            "id": "vtehli_oquglo",
+                            "name": "joint_control",
+                            "type": "Abstract",
+                            "group": "OR",
+                            "rel": "MAN",
+                            "sub": [
+                                {
+                                    "id": "ovongf_vtehli",
+                                    "name": "joint_movement",
+                                    "type": "Abstract",
+                                    "group": "AND",
+                                    "rel": "MAN",
+                                    "sub": [
+                                        {
+                                            "id": "dptoia_ovongf",
+                                            "name": "move_joint",
+                                            "type": "Concrete",
+                                            "group": "AND",
+                                            "rel": "OPT"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": "joetnk_oquglo",
+                            "name": "torso_control",
+                            "type": "Concrete",
+                            "group": "OR",
+                            "rel": "MAN"
+                        },
+                        {
+                            "id": "rqkbhe_oquglo",
+                            "name": "arm_control",
+                            "type": "Abstract",
+                            "group": "OR",
+                            "rel": "MAN",
+                            "sub": [
+                                {
+                                    "id": "fmbcun_rqkbhe",
+                                    "name": "gripper_control",
+                                    "type": "Concrete",
+                                    "group": "AND",
+                                    "rel": "OPT"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "gotsi_root",
+            "name": "perception",
+            "type": "Abstract",
+            "group": "OR",
+            "rel": "MAN",
+            "sub": [
+                {
+                    "id": "tarecd_gotsi",
+                    "name": "computer_vision",
+                    "type": "Abstract",
+                    "group": "AND",
+                    "rel": "MAN",
+                    "sub": [
+                        {
+                            "id": "btgivd_tarecd",
+                            "name": "image_processing",
+                            "type": "Abstract",
+                            "group": "AND",
+                            "rel": "MAN",
+                            "sub": [
+                                {
+                                    "id": "netejm_btgivd",
+                                    "name": "matching",
+                                    "type": "Concrete",
+                                    "group": "OR",
+                                    "rel": "OPT"
+                                },
+                                {
+                                    "id": "ctdmtv_btgivd",
+                                    "name": "detection",
+                                    "type": "Abstract",
+                                    "group": "OR",
+                                    "rel": "OPT",
+                                    "sub": [
+                                        {
+                                            "id": "jdhdif_ctdmtv",
+                                            "name": "object_detection",
+                                            "type": "Abstract",
+                                            "group": "OR",
+                                            "rel": "MAN"
+                                        },
+                                        {
+                                            "id": "otdimg_ctdmtv",
+                                            "name": "marker_detection",
+                                            "type": "Abstract",
+                                            "group": "OR",
+                                            "rel": "MAN"
+                                        },
+                                        {
+                                            "id": "gviekr_ctdmtv",
+                                            "name": "corner_detection",
+                                            "type": "Abstract",
+                                            "group": "OR",
+                                            "rel": "MAN"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "ptiuct_btgivd",
+                                    "name": "tracking",
+                                    "type": "Concrete",
+                                    "group": "OR",
+                                    "rel": "OPT"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "umevdg_tarecd",
+                            "name": "navigation",
+                            "type": "Abstract",
+                            "group": "AND",
+                            "rel": "MAN",
+                            "sub": [
+                                {
+                                    "id": "mhyvlpn_umevdg",
+                                    "name": "positioning",
+                                    "type": "Abstract",
+                                    "group": "OR",
+                                    "rel": "MAN",
+                                    "sub": [
+                                        {
+                                            "id": "znjmvuc_mhyvlpn",
+                                            "name": "lam",
+                                            "type": "Abstract",
+                                            "group": "XOR",
+                                            "rel": "MAN",
+                                            "sub": [
+                                                {
+                                                    "id": "yuhejfl_znjmvuc",
+                                                    "name": "localisation",
+                                                    "type": "Abstract",
+                                                    "group": "OR",
+                                                    "rel": "MAN"
+                                                },
+                                                {
+                                                    "id": "fmcrslo_znjmvuc",
+                                                    "name": "mapping",
+                                                    "type": "Abstract",
+                                                    "group": "OR",
+                                                    "rel": "MAN",
+                                                    "sub": [
+                                                        {
+                                                            "id": "xukavjm_fmcrslo",
+                                                            "name": "circular_fitting",
+                                                            "type": "Concrete",
+                                                            "group": "OR",
+                                                            "rel": "OPT"
+                                                        },
+                                                        {
+                                                            "id": "jvxebvq_fmcrslo",
+                                                            "name": "kmean_clustering",
+                                                            "type": "Concrete",
+                                                            "group": "OR",
+                                                            "rel": "OPT"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "umzqvjv_mhyvlpn",
+                                            "name": "slam",
+                                            "type": "Abstract",
+                                            "group": "XOR",
+                                            "rel": "MAN"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "ajpzcbo_umevdg",
+                                    "name": "routing",
+                                    "type": "Abstract",
+                                    "group": "OR",
+                                    "rel": "MAN",
+                                    "sub": [
+                                        {
+                                            "id": "egfuvsc_ajpzcbo",
+                                            "name": "path_planning",
+                                            "type": "Abstract",
+                                            "group": "AND",
+                                            "rel": "MAN"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "bhdtj_root",
+            "name": "connectivity",
+            "type": "Abstract",
+            "group": "OR",
+            "rel": "MAN",
+            "sub": [
+                {
+                    "id": "iqvtjg_bhdtj",
+                    "name": "infrared",
+                    "type": "Concrete",
+                    "group": "OR",
+                    "rel": "MAN"
+                },
+                {
+                    "id": "vertnp_bhdtj",
+                    "name": "bluetooth",
+                    "type": "Concrete",
+                    "group": "OR",
+                    "rel": "MAN"
+                },
+                {
+                    "id": "tlrehn_bhdtj",
+                    "name": "cloud_access",
+                    "type": "Concrete",
+                    "group": "OR",
+                    "rel": "MAN"
+                }
+            ]
+        }
+    ]
+}
