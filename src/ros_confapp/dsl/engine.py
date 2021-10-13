@@ -73,7 +73,8 @@ class Engine(DslState, ErrorCodes):
     def validateAlterFeature(self, dslCommand):
         paramsCheck = []
         allowedTypes = ['concrete','abstract']
-        allowedRels = ['and','or','xor']
+        allowedRels = ['man','opt']
+        allowedGroups = ['or','xor']
         allowedModes = ['static','dynamic']
         allowedTimes = ['early','late']
         allowedStatus = ['true', 'false']
@@ -95,6 +96,12 @@ class Engine(DslState, ErrorCodes):
                             paramsCheck.append(element)
                         else:
                             print(f'List of allowed rel values: {allowedRels}')
+
+                    if result[0] == "group":
+                        if result[1] in allowedGroups:
+                            paramsCheck.append(element)
+                        else:
+                            print(f'List of allowed group values: {allowedGroups}')
 
                     if result[0] == "mode":
                         if result[1] in allowedModes:
@@ -124,12 +131,12 @@ class Engine(DslState, ErrorCodes):
         generatedChildFeatureID = self.generateNewUniqueFeatureID(parentID)
 
         featureStringBuild = f'{{"id":"{generatedChildFeatureID}", "name": "{childName}"}}'
-        propsStringBuild = f'{{"id":"{generatedChildFeatureID}", "props": {{"type": "", "description": "", "relationship":"", "mode":"", "time":"", "status": False}} }}'
+        propsStringBuild = f'{{"id":"{generatedChildFeatureID}", "props": {{"type": "Concrete", "group": "AND", "rel":"MAN", "mode":"Static", "time":"Early", "status": True}} }}'
         indexStringBuild = f'{{"parent":"{parentID}", "child":"{generatedChildFeatureID}"}}'
         return [featureStringBuild, propsStringBuild, indexStringBuild]       
 
     def generateNewUniqueFeatureID(self, parent):
-        parent = parent +'abcdefghijklmnopqrstuv'
+        parent = parent +'abcdefghijklmnopqrstuvxyz'
         parentSplit = parent.split('_')
         pname = parentSplit[0]
         newIdStrBase = list(parentSplit[1])

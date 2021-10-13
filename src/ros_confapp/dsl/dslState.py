@@ -6,6 +6,7 @@ class DslState:
     def __init__(self):
         self.enginePath = os.path.dirname(os.path.abspath('../dsl/engineState.json'))
         self.lexPath = os.path.dirname(os.path.abspath('../dsl/langLexState.json'))
+        self.regPath = os.path.dirname(os.path.abspath('../code/registry.json'))
 
     def getLexicalRules(self):
         lexStore = os.path.join(self.lexPath, 'langLexState.json')
@@ -19,6 +20,13 @@ class DslState:
         for lexicon  in lexicons['lexicons']:
             if lexicon['keyword'] == ruleName:
                 return lexicon
+
+    def getRegistryState(self):
+        regStore = os.path.join(self.regPath, 'registry.json')
+        dataFile = open(regStore, 'r')
+        regEngineState = json.loads(dataFile.read())
+        dataFile.close()
+        return regEngineState
 
     def getEngineState(self):
         engineStore = os.path.join(self.enginePath, 'engineState.json')
@@ -45,8 +53,8 @@ class DslState:
         for proj in eng['projects']:
             if proj['status'] == 1:
                 activeproj = proj['name']
-                modelPath = os.path.dirname(os.path.abspath('../model/usr/'+activeproj+'/base.json'))
-                my_model_file = os.path.join(modelPath, 'base.json')
+                modelPath = os.path.dirname(os.path.abspath('../model/usr/'+activeproj+'/model.json'))
+                my_model_file = os.path.join(modelPath, 'model.json')
                 dataFile = open(my_model_file, 'r')
                 readmodel = json.loads(dataFile.read())
                 dataFile.close()
@@ -72,20 +80,29 @@ class DslState:
         for proj in eng['projects']:
             if proj['status'] == 1:
                 activeproj = proj['name']
-                propsPath = os.path.dirname(os.path.abspath('../model/usr/'+activeproj+'/props.json'))
-                propsfile = os.path.join(propsPath, 'props.json')
+                propsPath = os.path.dirname(os.path.abspath('../model/usr/'+activeproj+'/config.json'))
+                propsfile = os.path.join(propsPath, 'config.json')
                 dataFile = open(propsfile, 'r')
                 allprops = json.loads(dataFile.read())
                 dataFile.close()
                 return allprops
         return False
 
+    def readRegistry(self, fid):
+        reg = self.getRegistryState()
+        
+        for vars in reg['env_var']:
+            if vars['fid'] == fid:
+                return vars['endpoint']
+        return None
+
+
     def saveModel(self, modelData):
         eng = self.getEngineState()
         for proj in eng['projects']:
             if proj['status'] == 1:
                 activeproj = proj['name']
-                modelPath = os.path.dirname(os.path.abspath('../model/usr/'+activeproj+'/base.json'))
+                modelPath = os.path.dirname(os.path.abspath('../model/usr/'+activeproj+'/model.json'))
                 modfile = os.path.join(modelPath, 'base.json')
                 with open(modfile, 'w', encoding='utf-8') as f:
                     json.dump(modelData, f, ensure_ascii=False, indent=4)
@@ -105,7 +122,7 @@ class DslState:
         for proj in eng['projects']:
             if proj['status'] == 1:
                 activeproj = proj['name']
-                propsPath = os.path.dirname(os.path.abspath('../model/usr/'+activeproj+'/props.json'))
+                propsPath = os.path.dirname(os.path.abspath('../model/usr/'+activeproj+'/config.json'))
                 propsfile = os.path.join(propsPath, 'props.json')
                 with open(propsfile, 'w', encoding='utf-8') as f:
                     json.dump(properties, f, ensure_ascii=False, indent=4)
