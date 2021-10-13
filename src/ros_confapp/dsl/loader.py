@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import rospy
 import rostopic
-from ros_confapp.srv import processConfigAction, processConfigActionRequest, processConfigActionResponse
+#from ros_confapp.srv import *
+from std_msgs.msg import String
 import sys
 
 try:
@@ -41,9 +42,10 @@ class PromptSelecter(Engine):
 class Loader(Engine):
     def __init__(self):
         Engine.__init__(self)
+        rospy.init_node("dsl_command_exec", anonymous=True)
 
     def cmdServiceStringPrep(self, cmdList):
-        return cmdList[0]+" "+cmdList[1]
+        return " ".join(cmdList)
         
 
     def sanitizeCommand(self, cmd):
@@ -51,18 +53,16 @@ class Loader(Engine):
         return sanitized.split()
 
     def sendRequestOverService(self, commandExecMessage):
-
-        rospy.init_node("dsl_command_exec")
-        rospy.wait_for_service('get_cmd')
+        pass
+       
         
-        try:
-            
-            core_config = rospy.ServiceProxy('get_cmd', processConfigAction)
-            respl = core_config(commandExecMessage)
-            return respl.feedback
-        except rospy.ServiceException as e:
-            rospy.loginfo("Service call failed")
-            rospy.loginfo(e)
+    
+    def publishCommand(self, fid, cmdStr):
+        endpoint = self.readRegistry(fid)
+        r = rospy.Rate(1)
+        pub = rospy.Publisher(endpoint, String, queue_size=10)
+        pub.publish(cmdStr)
+        r.sleep()
 
 
     def getListOfFeatureIds(self):
@@ -88,7 +88,7 @@ class Loader(Engine):
         if len(sys.argv) < 2:
         #activate console mode
             while(True):
-                lateCommands = ['load','unload']
+                lateCommands = ['load','unload', 'ping']
                 prompt = PromptSelecter()
                 prompt.buildPromptActiveConfig()
                 cmdline = input(prompt._consolePrompt)
@@ -106,8 +106,10 @@ class Loader(Engine):
                     cmd = self.sanitizeCommand(cmdline)
                     if cmd[0] not in lateCommands:
                         self.interpret(cmd)
-                    prepedCmdString = self.cmdServiceStringPrep(cmd)
-                    self.sendRequestOverService(prepedCmdString)
+                    else:
+                        self.interpret(cmd)
+                        #prepedCmdString = self.cmdServiceStringPrep(cmd)
+                        #self.publishCommand(cmd[1], prepedCmdString)
             
             else:
                 pass

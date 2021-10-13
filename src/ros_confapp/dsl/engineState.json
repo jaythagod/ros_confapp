@@ -1,14 +1,8 @@
 {
     "projects": [
         {
-            "id": "f1047e16e92711eb92c7d45d645b91b9",
-            "name": "example",
-            "mode": "",
-            "status": 0
-        },
-        {
-            "id": "a373afb3e95211eb9c0fd45d645b91b9",
-            "name": "zero",
+            "id": "d0cae4ca2c2411ec872dd45d645b91b9",
+            "name": "volvo",
             "mode": "",
             "status": 1
         }

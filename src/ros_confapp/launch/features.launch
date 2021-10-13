@@ -1,0 +1,3 @@
+<launch>
+    <node name="dijkstra_interface" pkg="ros_confapp" type="dijkstraNode.py" output="screen"/>
+</launch>
