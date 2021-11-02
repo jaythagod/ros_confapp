@@ -201,3 +201,6 @@ class Engine(DslState, ErrorCodes):
 
         if cmd[0] == "unload":
             getattr(cmdexec, cmd[0])(cmd[1])
+
+        if cmd[0] == "validate_config":
+            getattr(cmdexec, cmd[0])()
