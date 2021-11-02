@@ -5,6 +5,12 @@ class Bindings(DslState):
     def __init__(self):
         DslState.__init__(self)
 
+    def bindingTimeSwitch(self):
+        pass
+
+    def bindingModeSwitch(self):
+        pass
+
     def getFeatureState(self, featureID):
         features = self.readProps()
         for feature in features['properties']:

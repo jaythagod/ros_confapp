@@ -6,14 +6,16 @@ from distutils.util import strtobool
 
 from ros_confapp.dsl.documentation import Documentation
 from ros_confapp.dsl.dslState import DslState
+from ros_confapp.dsl.configurator import Configurator
 
 
 #from dsl.config import Configuration
 
-class CmdExec(DslState, Documentation):
+class CmdExec(Configurator, DslState, Documentation):
     def __init__(self):
         DslState.__init__(self)
         Documentation.__init__(self)
+        Configurator.__init__(self)
         self._usrProjectsDir = os.path.dirname(os.path.abspath('../model/usr/base'))
         self._stringPath = ""
         self._traverseGuide = []
@@ -418,4 +420,16 @@ class CmdExec(DslState, Documentation):
                 print(f'Feature {featureID} unloaded')   
         #Save update            
         self.saveProps(props)
+
+    def validate_config(self):
+        activeM = self.getActiveModel()
+        print(f'Validating {activeM}.....')
+        print("-------------------------------------------")
+        props = self.readProps()
+        #pass configuration to configurator
+        self.checkAllConstraints(props)
+        self.printViolations()
+
+        print(f'+++{activeM} validation complete+++')
+
 
