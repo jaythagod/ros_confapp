@@ -6,7 +6,7 @@ class DslState:
     def __init__(self):
         self.enginePath = os.path.dirname(os.path.abspath('../dsl/engineState.json'))
         self.lexPath = os.path.dirname(os.path.abspath('../dsl/langLexState.json'))
-        self.regPath = os.path.dirname(os.path.abspath('../code/registry.json'))
+        self.regPath = os.path.dirname(os.path.abspath('../dsl/registry.json'))
 
     def getLexicalRules(self):
         lexStore = os.path.join(self.lexPath, 'langLexState.json')
@@ -30,6 +30,7 @@ class DslState:
 
     def getEngineState(self):
         engineStore = os.path.join(self.enginePath, 'engineState.json')
+        print(engineStore)
         dataFile = open(engineStore, 'r')
         engineState = json.loads(dataFile.read())
         dataFile.close()
@@ -123,7 +124,7 @@ class DslState:
             if proj['status'] == 1:
                 activeproj = proj['name']
                 propsPath = os.path.dirname(os.path.abspath('../model/usr/'+activeproj+'/config.json'))
-                propsfile = os.path.join(propsPath, 'props.json')
+                propsfile = os.path.join(propsPath, 'config.json')
                 with open(propsfile, 'w', encoding='utf-8') as f:
                     json.dump(properties, f, ensure_ascii=False, indent=4)
 
@@ -133,3 +134,14 @@ class DslState:
             if prop['id'] == featureID:
                 return True
         return False
+
+    def dumpCurrentConfig(self):
+        configDump = []
+        propList = self.readProps()
+        print(propList)
+        for prop in propList['properties']:
+            #:TODO check for selected feature
+            if prop['props']['time'] == "Early":
+                configDump.append(prop['id'])     
+        return configDump
+        

@@ -1,0 +1,438 @@
+{
+    "properties": [
+        {
+            "id": "oocje_root",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "gotsi_root",
+            "constraints": {
+                "inc": [
+                    "umevdg_tarecd"
+                ],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "bhdtj_root",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Dynamic",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "iqvtjg_bhdtj",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "vertnp_bhdtj",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "tlrehn_bhdtj",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": true
+            }
+        },
+        {
+            "id": "tarecd_gotsi",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "btgivd_tarecd",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "umevdg_tarecd",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "nrbsdk_oocje",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "oquglo_oocje",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "jgiocm_nrbsdk",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "qelhvp_oquglo",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "amvoec_oquglo",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "vtehli_oquglo",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "joetnk_oquglo",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "rqkbhe_oquglo",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "olbfug_qelhvp",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "ovongf_vtehli",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "dptoia_ovongf",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "fmbcun_rqkbhe",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "netejm_btgivd",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "ctdmtv_btgivd",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "ptiuct_btgivd",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "jdhdif_ctdmtv",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "otdimg_ctdmtv",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "gviekr_ctdmtv",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "mhyvlpn_umevdg",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "ajpzcbo_umevdg",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "znjmvuc_mhyvlpn",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "umzqvjv_mhyvlpn",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "egfuvsc_ajpzcbo",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "yuhejfl_znjmvuc",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "fmcrslo_znjmvuc",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "xukavjm_fmcrslo",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        },
+        {
+            "id": "jvxebvq_fmcrslo",
+            "constraints": {
+                "inc": [],
+                "ex": []
+            },
+            "props": {
+                "mode": "Static",
+                "time": "Early",
+                "status": false
+            }
+        }
+    ]
+}
