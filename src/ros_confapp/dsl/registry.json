@@ -1,0 +1,16 @@
+{
+    "env_var":[
+        {
+            "fid":"flhczut_egfuvsc",
+            "endpoint":"dijkstra"
+        },
+        {
+            "fid":"hacqszx_egfuvsc",
+            "endpoint":"astar"
+        },
+        {
+            "fid":"umzqvjv_mhyvlpn",
+            "endpoint":"slam"
+        }
+    ]
+}

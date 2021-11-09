@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+import rospy
+import rosnode
+from std_msgs.msg import String
 import os
 import shutil
 import uuid
@@ -413,13 +416,46 @@ class CmdExec(Configurator, DslState, Documentation):
 
     def unload(self, featureID):
         props = self.readProps()
-            
-        for prop in props['properties']:
-            if prop['id'] == featureID:  
-                prop['props']['status'] = False
-                print(f'Feature {featureID} unloaded')   
-        #Save update            
-        self.saveProps(props)
+        #get topic from registry
+        topicEndpoint = self.readRegistry(featureID)
+        #broadcast on topic
+        r = rospy.Rate(1)
+        pub = rospy.Publisher(topicEndpoint, String, queue_size=1)
+        #check node life
+        nodelist = rosnode.get_node_names()
+        thisNode = "/"+topicEndpoint
+        #check if exists in rosnode list
+        if thisNode in nodelist:
+            pub.publish("unload")
+            #change config status    
+            for prop in props['properties']:
+                if prop['id'] == featureID:  
+                    prop['props']['status'] = False
+                    print(f'Feature {featureID} has been unloaded successfully')   
+            #Save update            
+            self.saveProps(props)
+        else:
+            print(f'Feature {featureID} already unloaded')
+
+        r.sleep()
+        
+    def ping(self, featureID):
+        #get topic from registry
+        topicEndpoint = self.readRegistry(featureID)
+        #broadcast on topic
+        r = rospy.Rate(1)
+        pub = rospy.Publisher(topicEndpoint, String, queue_size=1)
+        #check node life
+        nodelist = rosnode.get_node_names()
+        thisNode = "/"+topicEndpoint
+        
+        #check if exists in rosnode list
+        if thisNode in nodelist:
+            pub.publish("ping")
+        else:
+            print(f'Ping failed. Feature {featureID} unloaded')
+
+        r.sleep()    
 
     def validate_config(self):
         activeM = self.getActiveModel()
