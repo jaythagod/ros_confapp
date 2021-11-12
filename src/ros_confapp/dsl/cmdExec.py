@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import rospy
 import rosnode
+import roslaunch
 from std_msgs.msg import String
 import os
 import shutil
@@ -405,54 +406,92 @@ class CmdExec(Configurator, DslState, Documentation):
 
     def load(self, featureID):
         props = self.readProps()
+        #get topic from registry
+        topicEndpoint = self.readRegistry(featureID)
+        if topicEndpoint != None:
+            #broadcast on topic
+            r = rospy.Rate(1)
+            pub = rospy.Publisher(topicEndpoint, String, queue_size=1)
+            #check node life
+            nodelist = rosnode.get_node_names()
             
-        for prop in props['properties']:
-            if prop['id'] == featureID:  
-                prop['props']['status'] = True
-                print(f'Feature {featureID} loaded')   
-        #Save update            
-        self.saveProps(props)
+            thisNode = "/"+topicEndpoint
+            #check if exists in rosnode list
+            if thisNode not in nodelist:
+                #check binding and update list
+                canBeLoaded = self.checkBindingCombination(featureID, action="load")
+                #if feature can be possibly loaded
+                if canBeLoaded == True:
+                    pub.publish("load")
+                    #change config status    
+                    for prop in props['properties']:
+                        if prop['id'] == featureID:  
+                            prop['props']['status'] = False
+                            print(f'Feature {featureID} has been loaded successfully')   
+                    #Save update to model           
+                    self.saveProps(props)
+                    #update server param of bound features
+                    current_server_state = list(rospy.get_param('/global_config_param'))
+                    
+                    if featureID not in current_server_state:
+                        self.reactivateFeature(topicEndpoint)
+                        current_server_state.append(featureID)
+                        rospy.set_param('/global_config_param', current_server_state)
+                        
+                    else:
+                        print("Feature already exists in server config. No need to re-set it")
+                else:
+                    bt = rospy.get_param('/binding_time')
+                    print(f'Feature {featureID} cannot be loaded at {bt} time')
+            else:
+                print(f'Feature node {featureID} already loaded')
+
+            r.sleep()
+        else:
+            print("Node cannot be found in registry")
 
 
     def unload(self, featureID):
         props = self.readProps()
         #get topic from registry
         topicEndpoint = self.readRegistry(featureID)
-        #broadcast on topic
-        r = rospy.Rate(1)
-        pub = rospy.Publisher(topicEndpoint, String, queue_size=1)
-        #check node life
-        nodelist = rosnode.get_node_names()
-        
-        thisNode = "/"+topicEndpoint
-        #check if exists in rosnode list
-        if thisNode in nodelist:
-            #check binding and update list
-            canBeUnloaded = self.checkBindingCombination(featureID, action="unload")
-            #if feature can be possibly loaded
-            if canBeUnloaded:
-                pub.publish("unload")
-                #change config status    
-                for prop in props['properties']:
-                    if prop['id'] == featureID:  
-                        prop['props']['status'] = False
-                        print(f'Feature {featureID} has been unloaded successfully')   
-                #Save update to model           
-                self.saveProps(props)
-                #update server param of bound features
-                current_server_state = list(rospy.get_param('/global_config_param'))
-                print(current_server_state)
-                if featureID in current_server_state:
-                    current_server_state.remove(featureID)
-                    print(current_server_state)
-                    rospy.set_param('/global_config_param', current_server_state)
+        if topicEndpoint != None:
+            #broadcast on topic
+            r = rospy.Rate(1)
+            pub = rospy.Publisher(topicEndpoint, String, queue_size=1)
+            #check node life
+            nodelist = rosnode.get_node_names()
+            
+            thisNode = "/"+topicEndpoint
+            #check if exists in rosnode list
+            if thisNode in nodelist:
+                #check binding and update list
+                canBeUnloaded = self.checkBindingCombination(featureID, action="unload")
+                #if feature can be possibly loaded
+                if canBeUnloaded == True:
+                    pub.publish("unload")
+                    #change config status    
+                    for prop in props['properties']:
+                        if prop['id'] == featureID:  
+                            prop['props']['status'] = False
+                            print(f'Feature {featureID} has been unloaded successfully')   
+                    #Save update to model           
+                    self.saveProps(props)
+                    #update server param of bound features
+                    current_server_state = list(rospy.get_param('/global_config_param'))
+                    
+                    if featureID in current_server_state:
+                        current_server_state.remove(featureID)
+                        rospy.set_param('/global_config_param', current_server_state)
+                else:
+                    bt = rospy.get_param('/binding_time')
+                    print(f'Feature {featureID} cannot be unloaded at {bt} time')
             else:
-                bt = rospy.get_param('/binding_time')
-                print(f'Feature {featureID} cannot be unloaded at {bt} time')
-        else:
-            print(f'Feature {featureID} already unloaded')
+                print(f'Feature node {featureID} already unloaded')
 
-        r.sleep()
+            r.sleep()
+        else:
+            print("Node cannot be found in registry")
         
     def ping(self, featureID):
         #get topic from registry
@@ -488,6 +527,7 @@ class CmdExec(Configurator, DslState, Documentation):
        
         #set global param list
         rospy.set_param('global_config_param', currentConfig)
+        rospy.set_param('binding_time', "late")
 
         if rospy.get_param('/global_config_param'):
             rospy.loginfo('Early binding executed successfully')
@@ -501,8 +541,34 @@ class CmdExec(Configurator, DslState, Documentation):
             if vars['fid'] not in nodeList:
                 self.unload(vars['fid'])  
 
-        #change proj mode to LATE
-        #self.setTimeToLate()
+
+    def dump_server_settings(self):
+        reg = self.getEngineState()
+        for project in reg['projects']:
+            if project['status'] == 1:
+                configName = project['name']
+
+        binding_time = rospy.get_param('/binding_time')
+        print("------------------------------------------")
+        print(f'Config. Name: {configName} Binding time: {binding_time}')
+        print("------------------------------------------")
+
+        if rospy.get_param('/global_config_param'):
+            for feature in rospy.get_param('/global_config_param'):
+                print(feature)
+
+
+    def reactivateFeature(self, nodeName):
+        package = 'ros_confapp'
+        executable = nodeName
+        node = roslaunch.core.Node(package, executable)
+
+        launch = roslaunch.scriptapi.ROSLaunch()
+        launch.start()
+
+        process = launch.launch(node)
+        #print(process.is_alive())
+        #process.stop()
         
         
 
