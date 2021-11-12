@@ -207,3 +207,6 @@ class Engine(DslState, ErrorCodes):
 
         if cmd[0] == "ping":
             getattr(cmdexec, cmd[0])(cmd[1])
+
+        if cmd[0] == "run_config":
+            getattr(cmdexec, cmd[0])()

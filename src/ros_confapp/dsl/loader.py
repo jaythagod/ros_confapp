@@ -20,7 +20,7 @@ class PromptSelecter(Engine):
         
 
     def buildPromptActiveConfig(self):
-        self.appModeCheck()
+        #self.appModeCheck()
         self._consolePrompt += "@"+self.appMode.upper()
         engState = self.getEngineState()
         for project in engState['projects']:

@@ -16,6 +16,7 @@
         {"keyword":"load", "params":[], "structDep":[], "length": 2},
         {"keyword":"ping", "params":[], "structDep":[], "length": 2},
         {"keyword":"config_mode_set", "params":[], "structDep":[], "length": 2},
-        {"keyword":"validate_config", "params":[], "structDep":[], "length": 2}
+        {"keyword":"validate_config", "params":[], "structDep":[], "length": 2},
+        {"keyword":"run_config", "params":[], "structDep":[], "length": 2}
     ]
 }

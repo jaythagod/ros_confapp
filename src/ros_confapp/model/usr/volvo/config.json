@@ -2,9 +2,9 @@
     "properties": [
         {
             "id": "oocje_root",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -14,9 +14,11 @@
         },
         {
             "id": "gotsi_root",
-            "constraints":{
-                "inc":["umevdg_tarecd"],
-                "ex":[]
+            "constraints": {
+                "inc": [
+                    "umevdg_tarecd"
+                ],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -26,9 +28,9 @@
         },
         {
             "id": "bhdtj_root",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Dynamic",
@@ -38,9 +40,9 @@
         },
         {
             "id": "iqvtjg_bhdtj",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -50,9 +52,9 @@
         },
         {
             "id": "vertnp_bhdtj",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -62,9 +64,9 @@
         },
         {
             "id": "tlrehn_bhdtj",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -74,9 +76,9 @@
         },
         {
             "id": "tarecd_gotsi",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -86,9 +88,9 @@
         },
         {
             "id": "btgivd_tarecd",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -98,9 +100,9 @@
         },
         {
             "id": "umevdg_tarecd",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -110,9 +112,9 @@
         },
         {
             "id": "nrbsdk_oocje",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -122,9 +124,9 @@
         },
         {
             "id": "oquglo_oocje",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -134,9 +136,9 @@
         },
         {
             "id": "jgiocm_nrbsdk",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -146,9 +148,9 @@
         },
         {
             "id": "qelhvp_oquglo",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -158,9 +160,9 @@
         },
         {
             "id": "amvoec_oquglo",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -170,9 +172,9 @@
         },
         {
             "id": "vtehli_oquglo",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -182,9 +184,9 @@
         },
         {
             "id": "joetnk_oquglo",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -194,9 +196,9 @@
         },
         {
             "id": "rqkbhe_oquglo",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -206,9 +208,9 @@
         },
         {
             "id": "olbfug_qelhvp",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -218,9 +220,9 @@
         },
         {
             "id": "ovongf_vtehli",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -230,9 +232,9 @@
         },
         {
             "id": "dptoia_ovongf",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -242,9 +244,9 @@
         },
         {
             "id": "fmbcun_rqkbhe",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -254,9 +256,9 @@
         },
         {
             "id": "netejm_btgivd",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -266,9 +268,9 @@
         },
         {
             "id": "ctdmtv_btgivd",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -278,9 +280,9 @@
         },
         {
             "id": "ptiuct_btgivd",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -290,9 +292,9 @@
         },
         {
             "id": "jdhdif_ctdmtv",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -302,9 +304,9 @@
         },
         {
             "id": "otdimg_ctdmtv",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -314,9 +316,9 @@
         },
         {
             "id": "gviekr_ctdmtv",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -326,9 +328,9 @@
         },
         {
             "id": "mhyvlpn_umevdg",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -338,9 +340,9 @@
         },
         {
             "id": "ajpzcbo_umevdg",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -350,9 +352,9 @@
         },
         {
             "id": "znjmvuc_mhyvlpn",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -362,33 +364,33 @@
         },
         {
             "id": "umzqvjv_mhyvlpn",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
                 "time": "Early",
-                "status": false
+                "status": true
             }
         },
         {
             "id": "egfuvsc_ajpzcbo",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
                 "time": "Early",
-                "status": false
+                "status": true
             }
         },
         {
             "id": "yuhejfl_znjmvuc",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -398,9 +400,9 @@
         },
         {
             "id": "fmcrslo_znjmvuc",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -410,9 +412,9 @@
         },
         {
             "id": "xukavjm_fmcrslo",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
@@ -422,14 +424,14 @@
         },
         {
             "id": "jvxebvq_fmcrslo",
-            "constraints":{
-                "inc":[],
-                "ex":[]
+            "constraints": {
+                "inc": [],
+                "ex": []
             },
             "props": {
                 "mode": "Static",
                 "time": "Early",
-                "status": false
+                "status": true
             }
         }
     ]

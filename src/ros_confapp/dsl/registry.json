@@ -1,16 +1,32 @@
 {
     "env_var":[
         {
-            "fid":"flhczut_egfuvsc",
-            "endpoint":"dijkstra"
+            "fid":"iqvtjg_bhdtj",
+            "endpoint":"infrared"
         },
         {
-            "fid":"hacqszx_egfuvsc",
-            "endpoint":"astar"
+            "fid":"vertnp_bhdtj",
+            "endpoint":"bluetooth"
         },
         {
             "fid":"umzqvjv_mhyvlpn",
             "endpoint":"slam"
+        },
+        {
+            "fid":"tlrehn_bhdtj",
+            "endpoint":"cloudaccess"
+        },
+        {
+            "fid":"egfuvsc_ajpzcbo",
+            "endpoint":"pathplanning"
+        },
+        {
+            "fid":"jvxebvq_fmcrslo",
+            "endpoint":"kmean"
+        },
+        {
+            "fid":"xukavjm_fmcrslo",
+            "endpoint":"circfit"
         }
     ]
 }
