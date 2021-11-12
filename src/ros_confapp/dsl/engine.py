@@ -210,3 +210,6 @@ class Engine(DslState, ErrorCodes):
 
         if cmd[0] == "run_config":
             getattr(cmdexec, cmd[0])()
+
+        if cmd[0] == "dump_server_settings":
+            getattr(cmdexec, cmd[0])()
