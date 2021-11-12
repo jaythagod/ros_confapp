@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import rospy
 import os
 import json
 
@@ -30,7 +31,6 @@ class DslState:
 
     def getEngineState(self):
         engineStore = os.path.join(self.enginePath, 'engineState.json')
-        print(engineStore)
         dataFile = open(engineStore, 'r')
         engineState = json.loads(dataFile.read())
         dataFile.close()
@@ -138,10 +138,17 @@ class DslState:
     def dumpCurrentConfig(self):
         configDump = []
         propList = self.readProps()
-        print(propList)
         for prop in propList['properties']:
-            #:TODO check for selected feature
-            if prop['props']['time'] == "Early":
+            if prop['props']['time'] == "Early" and prop['props']['status'] == True:
                 configDump.append(prop['id'])     
         return configDump
-        
+
+    def setTimeToLate(self):
+        engstate = self.getEngineState()
+        for project in engstate['projects']:
+            if project['status'] == 1:
+                    project['time'] = "LATE"
+                    rospy.loginfo("Runtime activated...")
+        self.saveEngineState(engstate)
+            
+                

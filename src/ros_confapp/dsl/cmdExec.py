@@ -267,7 +267,7 @@ class CmdExec(Configurator, DslState, Documentation):
 
     def updateDslState(self, pname):
         confid = uuid.uuid1()
-        stateStore = {"id": confid.hex, "name": pname, "mode":"", "status": 0}
+        stateStore = {"id": confid.hex, "name": pname, "mode":"", "time":"", "status": 0}
         estate = self.getEngineState()
         estate['projects'].append(stateStore)
         self.saveEngineState(estate)
@@ -423,17 +423,32 @@ class CmdExec(Configurator, DslState, Documentation):
         pub = rospy.Publisher(topicEndpoint, String, queue_size=1)
         #check node life
         nodelist = rosnode.get_node_names()
+        
         thisNode = "/"+topicEndpoint
         #check if exists in rosnode list
         if thisNode in nodelist:
-            pub.publish("unload")
-            #change config status    
-            for prop in props['properties']:
-                if prop['id'] == featureID:  
-                    prop['props']['status'] = False
-                    print(f'Feature {featureID} has been unloaded successfully')   
-            #Save update            
-            self.saveProps(props)
+            #check binding and update list
+            canBeUnloaded = self.checkBindingCombination(featureID, action="unload")
+            #if feature can be possibly loaded
+            if canBeUnloaded:
+                pub.publish("unload")
+                #change config status    
+                for prop in props['properties']:
+                    if prop['id'] == featureID:  
+                        prop['props']['status'] = False
+                        print(f'Feature {featureID} has been unloaded successfully')   
+                #Save update to model           
+                self.saveProps(props)
+                #update server param of bound features
+                current_server_state = list(rospy.get_param('/global_config_param'))
+                print(current_server_state)
+                if featureID in current_server_state:
+                    current_server_state.remove(featureID)
+                    print(current_server_state)
+                    rospy.set_param('/global_config_param', current_server_state)
+            else:
+                bt = rospy.get_param('/binding_time')
+                print(f'Feature {featureID} cannot be unloaded at {bt} time')
         else:
             print(f'Feature {featureID} already unloaded')
 
@@ -467,5 +482,31 @@ class CmdExec(Configurator, DslState, Documentation):
         self.printViolations()
 
         print(f'+++{activeM} validation complete+++')
+
+    def run_config(self):
+        currentConfig = self.dumpCurrentConfig()
+       
+        #set global param list
+        rospy.set_param('global_config_param', currentConfig)
+
+        if rospy.get_param('/global_config_param'):
+            rospy.loginfo('Early binding executed successfully')
+        
+        self.node_template_spawn(currentConfig)
+
+    def node_template_spawn(self, nodeList):
+        reg = self.getRegistryState()
+        
+        for vars in reg['env_var']:
+            if vars['fid'] not in nodeList:
+                self.unload(vars['fid'])  
+
+        #change proj mode to LATE
+        #self.setTimeToLate()
+        
+        
+
+    
+
 
 
