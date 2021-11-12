@@ -419,7 +419,7 @@
             "props": {
                 "mode": "Static",
                 "time": "Early",
-                "status": false
+                "status": true
             }
         },
         {
@@ -429,9 +429,9 @@
                 "ex": []
             },
             "props": {
-                "mode": "Static",
+                "mode": "Dynamic",
                 "time": "Early",
-                "status": true
+                "status": false
             }
         }
     ]
