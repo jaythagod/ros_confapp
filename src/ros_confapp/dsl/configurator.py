@@ -25,16 +25,18 @@ class Configurator(ConstraintChecker, Bindings):
     def printViolations(self):
         if(len(self.includeViolations) > 0):
             inc_string = "\n".join(self.includeViolations)
-            print(f'Include constraint violation:\n ------------------------------------------- \n {inc_string}')
-            print("-------------------------------------------")
+            print(f'\n\tInclude Constraint Violation:\n ----------------------------------------------------- \n        Feature      |       Inclusion\n -----------------------------------------------------')
+            print(inc_string)
+            print("------------------------------------------------------")
 
         if(len(self.excludeViolations) > 0):
             ex_string = "\n".join(self.excludeViolations)
-            print(f'Exclude constraint violation:\n ------------------------------------------- \n {ex_string}')
-            print("-------------------------------------------")
+            print(f'\n\tExclude Constraint Violation:\n ----------------------------------------------------- \n        Feature      |       Exclusion\n -----------------------------------------------------')
+            print(ex_string)
+            print("------------------------------------------------------")
         
         if(len(self.parentChildViolations) > 0):
-            pairString_list = [pair[0]+" - "+pair[1] for pair in self.parentChildViolations]
+            pairString_list = [pair[0]+" | "+pair[1]+"\n--------------------------------------------" for pair in self.parentChildViolations]
             pc_list = "\n".join(pairString_list)
-            print(f'Parent/Child constraint violation:\n ------------------------------------------- \n {pc_list}')
-            print("-------------------------------------------")
+            print(f'\n\tParent/Child Constraint Violation:\n ------------------------------------------- \n         Parent      |       Child\n -------------------------------------------')
+            print(pc_list)
