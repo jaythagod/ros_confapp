@@ -513,14 +513,14 @@ class CmdExec(Configurator, DslState, Documentation):
 
     def validate_config(self):
         activeM = self.getActiveModel()
-        print(f'Validating {activeM}.....')
-        print("-------------------------------------------")
+        print(f'+++ Validating Configuration: {activeM}.....+++\n')
+        
         props = self.readProps()
         #pass configuration to configurator
         self.checkAllConstraints(props)
         self.printViolations()
 
-        print(f'+++{activeM} validation complete+++')
+        print(f'\n+++ Configuration ({activeM}) Validation Complete +++')
 
     def run_config(self):
         currentConfig = self.dumpCurrentConfig()
@@ -549,9 +549,9 @@ class CmdExec(Configurator, DslState, Documentation):
                 configName = project['name']
 
         binding_time = rospy.get_param('/binding_time')
-        print("------------------------------------------")
-        print(f'Config. Name: {configName} Binding time: {binding_time}')
-        print("------------------------------------------")
+        print("------------------------------------------------")
+        print(f'Config. Name: {configName}   |    Binding time: {binding_time}')
+        print("------------------------------------------------")
 
         if rospy.get_param('/global_config_param'):
             for feature in rospy.get_param('/global_config_param'):
@@ -561,14 +561,12 @@ class CmdExec(Configurator, DslState, Documentation):
     def reactivateFeature(self, nodeName):
         package = 'ros_confapp'
         executable = nodeName
-        node = roslaunch.core.Node(package, executable)
+        node = roslaunch.core.Node(package=package, node_type=executable, name=executable, machine_name=None, output='screen')
 
         launch = roslaunch.scriptapi.ROSLaunch()
         launch.start()
-
-        process = launch.launch(node)
-        #print(process.is_alive())
-        #process.stop()
+        rospy.loginfo(f'Node {nodeName} Started Successfully')
+        launch.launch(node)
         
         
 
