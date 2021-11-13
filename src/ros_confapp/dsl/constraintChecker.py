@@ -29,7 +29,7 @@ class CrossFunctionalConstraints(DslState):
             for inc in includeList:
                 statusCheck = self.findFeatureStatus(inc)
                 if statusCheck == "not-selected":
-                    self.includeViolations.append(inc)
+                    self.includeViolations.append("\t"+feature+ "    |   " +inc+" [Status=False]")
 
     def excludes(self, feature, excludeList):
         mainExcFeatureStatus = self.findFeatureStatus(feature)
@@ -37,7 +37,7 @@ class CrossFunctionalConstraints(DslState):
             for exc in excludeList:
                 statusCheck = self.findFeatureStatus(exc)
                 if statusCheck == "selected":
-                    self.excludeViolations.append(exc)
+                    self.excludeViolations.append("\t"+feature+ "    |   " +exc+" [Status=True]")
 
     
 
@@ -64,7 +64,7 @@ class ConstraintChecker(CrossFunctionalConstraints):
                     
                     if parentMode == "Dynamic" and childMode == "Static":
                         #append constraint violating feature
-                        self.parentChildViolations.append([mapping['parent'],mapping['child']])
+                        self.parentChildViolations.append([mapping['parent']+" (Dynamic)",mapping['child']+" (Static)"])
 
     
 
