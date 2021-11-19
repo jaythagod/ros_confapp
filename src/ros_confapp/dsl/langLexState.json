@@ -18,6 +18,8 @@
         {"keyword":"config_mode_set", "params":[], "structDep":[], "length": 2},
         {"keyword":"validate_config", "params":[], "structDep":[], "length": 2},
         {"keyword":"run_config", "params":[], "structDep":[], "length": 2},
-        {"keyword":"dump_server_settings", "params":[], "structDep":[], "length": 2}
+        {"keyword":"dump_server_settings", "params":[], "structDep":[], "length": 2},
+        {"keyword":"set_include", "params":[], "structDep":[], "length": 3},
+        {"keyword":"set_exclude", "params":[], "structDep":[], "length": 3}
     ]
 }

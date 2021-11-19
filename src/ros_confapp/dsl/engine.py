@@ -107,13 +107,13 @@ class Engine(DslState, ErrorCodes):
                         if result[1] in allowedModes:
                             paramsCheck.append(element)
                         else:
-                            print(f'List of allowed mode values: {allowedModes}')
+                            print(f'{element} not a valid mode value. Allowed mode values are: {allowedModes}')
 
                     if result[0] == "time":
                         if result[1] in allowedTimes:
                             paramsCheck.append(element)
                         else:
-                            print(f'List of allowed time values: {allowedTimes}')
+                            print(f'{element} not a valid mode value. Allowed mode values are: {allowedTimes}')
 
                     if result[0] == "status":
                         if result[1] in allowedStatus:
@@ -126,14 +126,27 @@ class Engine(DslState, ErrorCodes):
         paramsCheck.append(dslCommand[1])
         return paramsCheck
 
+    def validateIncludeExclude(self, dslCommandString):
+        #grab command string from list
+        commandArray = dslCommandString[1::]
+       
+        #check id existence
+        for feature in commandArray:
+            testResults = self.verifyFeatureExistence(feature)
+            if testResults == False:
+                print(f'Feature {feature} , is not a valid feature ID')
+                return "invalid_comm"
+        return commandArray
+
+
     def buildAddFeatureObject(self, parentID, childName):
         
         generatedChildFeatureID = self.generateNewUniqueFeatureID(parentID)
 
-        featureStringBuild = f'{{"id":"{generatedChildFeatureID}", "name": "{childName}"}}'
-        propsStringBuild = f'{{"id":"{generatedChildFeatureID}", "props": {{"type": "Concrete", "group": "AND", "rel":"MAN", "mode":"Static", "time":"Early", "status": True}} }}'
+        featureStringBuild = f'{{"id":"{generatedChildFeatureID}", "name": "{childName}", "type": "Concrete", "group": "AND", "rel":"MAN"}}'
+        propsStringBuild = f'{{"id":"{generatedChildFeatureID}","constraints": {{"inc": [], "ex": []}}, "props": {{"mode":"Static", "time":"Early", "status": False}} }}'
         indexStringBuild = f'{{"parent":"{parentID}", "child":"{generatedChildFeatureID}"}}'
-        return [featureStringBuild, propsStringBuild, indexStringBuild]       
+        return [featureStringBuild, propsStringBuild, indexStringBuild]      
 
     def generateNewUniqueFeatureID(self, parent):
         parent = parent +'abcdefghijklmnopqrstuvxyz'
@@ -213,3 +226,12 @@ class Engine(DslState, ErrorCodes):
 
         if cmd[0] == "dump_server_settings":
             getattr(cmdexec, cmd[0])()
+
+        if cmd[0] == "set_include":
+            incexSet = self.validateIncludeExclude(cmd)
+            getattr(cmdexec, cmd[0])(incexSet)
+
+        if cmd[0] == "set_exclude":
+            incexSet = self.validateIncludeExclude(cmd)
+            if incexSet != "invalid_comm":
+                getattr(cmdexec, cmd[0])(incexSet)
