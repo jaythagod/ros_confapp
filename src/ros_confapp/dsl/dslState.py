@@ -104,7 +104,7 @@ class DslState:
             if proj['status'] == 1:
                 activeproj = proj['name']
                 modelPath = os.path.dirname(os.path.abspath('../model/usr/'+activeproj+'/model.json'))
-                modfile = os.path.join(modelPath, 'base.json')
+                modfile = os.path.join(modelPath, 'model.json')
                 with open(modfile, 'w', encoding='utf-8') as f:
                     json.dump(modelData, f, ensure_ascii=False, indent=4)
 

@@ -42,28 +42,11 @@ class PromptSelecter(Engine):
 class Loader(Engine):
     def __init__(self):
         Engine.__init__(self)
-        rospy.init_node("dsl_command_exec", anonymous=True)
-
-    def cmdServiceStringPrep(self, cmdList):
-        return " ".join(cmdList)
-        
+        rospy.init_node("dsl_command_exec", anonymous=True)        
 
     def sanitizeCommand(self, cmd):
         sanitized = cmd.strip().lower()
         return sanitized.split()
-
-    def sendRequestOverService(self, commandExecMessage):
-        pass
-       
-        
-    
-    def publishCommand(self, fid, cmdStr):
-        endpoint = self.readRegistry(fid)
-        r = rospy.Rate(1)
-        pub = rospy.Publisher(endpoint, String, queue_size=10)
-        pub.publish(cmdStr)
-        r.sleep()
-
 
     def getListOfFeatureIds(self):
         allProps = self.readProps()
@@ -103,13 +86,12 @@ class Loader(Engine):
                     elif confirmation[0] != 'n' and confirmation[0] != 'y':
                         print("Invalid exit confirmation value provided. Try again")
                 else:
+                    print("\n")
                     cmd = self.sanitizeCommand(cmdline)
                     if cmd[0] not in lateCommands:
                         self.interpret(cmd)
                     else:
                         self.interpret(cmd)
-                        #prepedCmdString = self.cmdServiceStringPrep(cmd)
-                        #self.publishCommand(cmd[1], prepedCmdString)
             
             else:
                 pass

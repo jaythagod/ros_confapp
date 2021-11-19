@@ -5,6 +5,13 @@
             "name": "volvo",
             "mode": "",
             "time": "",
+            "status": 0
+        },
+        {
+            "id": "585fbd77475c11eca52cd45d645b91b9",
+            "name": "tiago",
+            "mode": "",
+            "time": "",
             "status": 1
         }
     ]

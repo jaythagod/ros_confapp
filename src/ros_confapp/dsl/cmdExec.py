@@ -104,8 +104,7 @@ class CmdExec(Configurator, DslState, Documentation):
         model = self.readModel()
         index = self.readIndexLookup()
         props = self.readProps()
-        #check if 'sub' key exists in model object
-        #TODO: Enforce XOR in alternative features
+        
         if eval("'sub' in model"+self._stringPath):
             exec("model"+self._stringPath+"['sub'].append("+additionArray[0]+")")
             exec("index['mappings'].append("+additionArray[2]+')')
@@ -131,29 +130,22 @@ class CmdExec(Configurator, DslState, Documentation):
         featureExists = self.verifyFeatureExistence(featureID)
         if featureExists:
             props = self.readProps()
-            
+            modesAllowed = ['static','dynamic']
+            timesAllowed = ['early', 'late']
             for prop in props['properties']:
                 if prop['id'] == featureID:
                     for param in alterParamSet:
                         paramSplit = param.split('=')
-                        if paramSplit[0] == 'type':
-                            prop['props'][paramSplit[0]] = paramSplit[1].lower().capitalize()
-                        elif paramSplit[0] == 'rel':
-                            prop['props']['relationship'] = paramSplit[1].upper()
-                            if paramSplit[1].upper() == 'OR':
-                                prop['props']['description'] = 'Optional'
-                            elif paramSplit[1].upper() == 'AND':
-                                prop['props']['description'] = 'Mandatory'
-                            elif paramSplit[1].upper() == 'XOR':
-                                prop['props']['description'] = 'Alternative'
-                        elif paramSplit[0] == 'time':
-                            prop['props'][paramSplit[0]] = paramSplit[1].lower().capitalize()
+                        if paramSplit[0] == 'time':
+                            if paramSplit[1].lower() in timesAllowed:
+                                prop['props'][paramSplit[0]] = paramSplit[1].lower().capitalize()
+                            else:
+                                print(f'Invalid Value. Binding time value cannot be set to {paramSplit[1].lower()}')
                         elif paramSplit[0] == 'mode':
-                            prop['props'][paramSplit[0]] = paramSplit[1].lower().capitalize()
-                        elif paramSplit[0] == 'status':
-                            statusVal = strtobool(paramSplit[1].lower())
-                            prop['props'][paramSplit[0]] = bool(statusVal)
-
+                            if paramSplit[1].lower() in modesAllowed:
+                                prop['props'][paramSplit[0]] = paramSplit[1].lower().capitalize()
+                            else:
+                                print(f'Invalid Value. Binding mode value cannot be set to {paramSplit[1].lower()}')
 
             self.saveProps(props)
             print(f'Feature **{featureID}** altered successfully')
@@ -170,11 +162,14 @@ class CmdExec(Configurator, DslState, Documentation):
         if param == "all":
             self.treePrint()
             print("\n\tNotation:[ + = Mandatory, # = Alternative, o = Optional, OR = &, x = Static, > = Dynamic, * = Off ]")
+        elif param == "config":
+            self.treePrint(param)
+            print("\n\tNotation:[ + = Mandatory, # = Alternative, o = Optional, OR = &, x = Static, > = Dynamic, * = Off ]")
         else:
             self.buildPath(param)
             model = self.readModel()
             featureReq = eval("model"+self._stringPath)
-            self.printSubtree(featureReq)
+            self.printSubtree(featureReq, filter=None)
             print("\n\tNotation:[ + = Mandatory, # = Alternative, o = Optional, OR = &, x = Static, > = Dynamic, * = Off ]")
 
     def activate_config(self, modelName):
@@ -202,12 +197,7 @@ class CmdExec(Configurator, DslState, Documentation):
             shutil.copy(srcFileBase, projFolder)
             shutil.copy(srcFileIndex, projFolder)
             shutil.copy(srcFileProps, projFolder)
-            #Create extracts folder
-            snippetsSrc = os.path.dirname(os.path.abspath('../featx/extracts/base/main.py'))
-            dstMain = os.path.dirname(os.path.abspath('../featx/extracts/base'))
-            snippetsDst = dstMain+ "\\"+ modelName
-            shutil.copytree(snippetsSrc, snippetsDst)
-
+            #Update Engine State
             self.updateDslState(modelName)
             print(f'{modelName} project created successfully')
 
@@ -332,12 +322,12 @@ class CmdExec(Configurator, DslState, Documentation):
                 return prop
 
 
-    def treePrint(self):
+    def treePrint(self, filter=None):
         activeModel = self.readModel()
         if "sub" in activeModel:
-            self.printSubtree(activeModel)
+            self.printSubtree(activeModel, filter)
 
-    def printSubtree(self, subArray, level='', desc='', group='', mode='', stat=''):
+    def printSubtree(self, subArray, filter, level='', desc='', group='', mode='', stat=''):
         propGet = self.getProperties(subArray['id'])
         
         if propGet != None:
@@ -360,13 +350,18 @@ class CmdExec(Configurator, DslState, Documentation):
 
             if propGet['props']['status'] == False:
                 stat = '*'
-           
-        print(f'{level}|{desc}--{mode}--{group} '+ subArray['name'] + '--{id: '+ subArray['id']+'}'+f'{stat}')
+
+        if filter == "config" and propGet != None:
+            if propGet['props']['status'] == True:   
+                print(f'{level}|{desc}--{mode}--{group} '+ subArray['name'] + '--{id: '+ subArray['id']+'}'+f'{stat}')
+
+        if filter == None:
+            print(f'{level}|{desc}--{mode}--{group} '+ subArray['name'] + '--{id: '+ subArray['id']+'}'+f'{stat}') 
         
         if "sub" in subArray:
             level += '\t'
             for sub in subArray['sub']:
-                self.printSubtree(sub, level)
+                self.printSubtree(sub, filter, level)
 
     def config(self, commandArray):
         print(commandArray[0])
@@ -567,6 +562,33 @@ class CmdExec(Configurator, DslState, Documentation):
         launch.start()
         rospy.loginfo(f'Node {nodeName} Started Successfully')
         launch.launch(node)
+
+    def set_include(self, setList):
+        propsList = self.readProps()
+
+        for prop in propsList['properties']:
+            if prop['id'] == setList[0]:
+                if setList[1] not in prop['constraints']['inc']:
+                    if setList[1] not in prop['constraints']['ex']:
+                        prop['constraints']['inc'].append(setList[1])
+                        self.saveProps(propsList)
+                        print(f'{setList[1]} added as include constraint to feature {setList[0]} successfully')
+                    else:
+                        print(f'Include you are attempting to set, already exists as exclude')
+
+    
+    def set_exclude(self, setList):
+        propsList = self.readProps()
+
+        for prop in propsList['properties']:
+            if prop['id'] == setList[0]:
+                if setList[1] not in prop['constraints']['ex']:
+                    if setList[1] not in prop['constraints']['inc']:
+                        prop['constraints']['ex'].append(setList[1])
+                        self.saveProps(propsList)
+                        print(f'{setList[1]} added as exclude constraint to feature {setList[0]} successfully')
+                    else:
+                        print(f'Exclude you are attempting to set, already exists as include')
         
         
 
