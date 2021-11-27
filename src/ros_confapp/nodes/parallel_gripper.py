@@ -1,10 +1,10 @@
 import rospy
 from std_msgs.msg import String
 
-nodeName = 'astar'
-topicName = "astar"
+nodeName = 'parallel_gripper'
+topicName = "parallel_gripper"
 
-def astar_callback(data):
+def pgrip_callback(data):
     rospy.loginfo("%s command published",data.data)
     if data.data == "unload":
         unloadThisFeature()
@@ -12,17 +12,17 @@ def astar_callback(data):
         runNode()
 
 def unloadThisFeature():
-    reason = "Astar feature unloaded from configuration"
+    reason = "Parallel gripper feature unloaded from configuration"
     rospy.loginfo(reason)
     rospy.signal_shutdown(reason)
     
 def runNode():
-    rospy.loginfo("Astar feature executed")
+    rospy.loginfo("Parallel gripper feature executed")
 
 def main():
     rospy.init_node(nodeName, disable_signals=True, anonymous=True)
-    rospy.loginfo("Listening@astar.node")
-    rospy.Subscriber(topicName, String, astar_callback)
+    rospy.loginfo("Listening@para-gripper.node")
+    rospy.Subscriber(topicName, String, pgrip_callback)
     rospy.spin()
 
 if __name__ == '__main__':

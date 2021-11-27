@@ -144,7 +144,7 @@ class Engine(DslState, ErrorCodes):
         generatedChildFeatureID = self.generateNewUniqueFeatureID(parentID)
 
         featureStringBuild = f'{{"id":"{generatedChildFeatureID}", "name": "{childName}", "type": "Concrete", "group": "AND", "rel":"MAN"}}'
-        propsStringBuild = f'{{"id":"{generatedChildFeatureID}","constraints": {{"inc": [], "ex": []}}, "props": {{"mode":"Static", "time":"Early", "status": False}} }}'
+        propsStringBuild = f'{{"id":"{generatedChildFeatureID}","constraints": {{"inc": [], "ex": [],"tbind": "","mbind": ""}}, "props": {{"mode":"Static", "time":"Early", "status": False}} }}'
         indexStringBuild = f'{{"parent":"{parentID}", "child":"{generatedChildFeatureID}"}}'
         return [featureStringBuild, propsStringBuild, indexStringBuild]      
 
@@ -157,6 +157,23 @@ class Engine(DslState, ErrorCodes):
         newStr = ''.join(newIdStrBase)
         newStr = newStr[::5]
         return newStr+'_'+pname
+
+    def validateBindingContraintSet(self, commandList):
+        allowedModeConstraints = ['static', 'dynamic', 'any']
+        allowedTimeConstraints = ['early', 'late', 'any']
+        
+        for cmdElement in commandList:
+            if "=" in cmdElement:
+                paramSubList = cmdElement.split("=")
+                if paramSubList[0] == "time":
+                    if paramSubList[1] not in allowedTimeConstraints:
+                        return "invalid_param_val"
+
+                if paramSubList[0] == "mode":
+                        if paramSubList[1] not in allowedModeConstraints:
+                            return "invalid_param_val"
+
+        return commandList[1::]
 
     def runCommand(self, cmd):
         if cmd[0] == "create_default_config":
@@ -235,3 +252,13 @@ class Engine(DslState, ErrorCodes):
             incexSet = self.validateIncludeExclude(cmd)
             if incexSet != "invalid_comm":
                 getattr(cmdexec, cmd[0])(incexSet)
+
+        if cmd[0] == "set_binding_constraint":
+            bCon = self.validateBindingContraintSet(cmd)
+            if bCon != "invalid_param_val":
+                getattr(cmdexec, cmd[0])(bCon)
+            else:
+                print("Execution Failed. Invalid Parameter were Supplied to the Command")
+
+        if cmd[0] == "configure_feature":
+            getattr(cmdexec, cmd[0])()

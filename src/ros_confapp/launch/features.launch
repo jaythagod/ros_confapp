@@ -8,4 +8,12 @@
     <node  pkg="ros_confapp" type="slam" name="slam" output="screen" />
     <node  pkg="ros_confapp" type="kmean" name="kmean" output="screen" />
     <node  pkg="ros_confapp" type="circfit" name="circfit" output="screen" />
+    <node  pkg="ros_confapp" type="parallel_gripper" name="parallel_gripper" output="screen" />
+    <node  pkg="ros_confapp" type="rolling" name="rolling" output="screen" />
+    <node  pkg="ros_confapp" type="walking" name="walking" output="screen" />
+    <node  pkg="ros_confapp" type="hopping" name="hopping" output="screen" />
+    <node  pkg="ros_confapp" type="astar" name="astar" output="screen" />
+    <node  pkg="ros_confapp" type="ssd" name="ssd" output="screen" />
+    <node  pkg="ros_confapp" type="fast_rcnn" name="fast_rcnn" output="screen" />
+    <node  pkg="ros_confapp" type="uvc_emission" name="uvc_emission" output="screen" />
 </launch>

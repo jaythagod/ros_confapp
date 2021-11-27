@@ -6,6 +6,7 @@ class CrossFunctionalConstraints(DslState):
         self.includeViolations = []
         self.excludeViolations = []
         self.parentChildViolations = []
+        self.bindingConstraintViolations = [[],[]]
 
     def findFeatureStatus(self, featureID):
         props = self.readProps()
@@ -67,4 +68,12 @@ class ConstraintChecker(CrossFunctionalConstraints):
                         self.parentChildViolations.append([mapping['parent']+" (Dynamic)",mapping['child']+" (Static)"])
 
     
-
+    def featureConfigurationConstraints(self, featureID, mode, time, tbind, mbind):
+        if mode != mbind:
+            if mode != "Any":
+                if featureID not in self.bindingConstraintViolations[1]:
+                    self.bindingConstraintViolations[1].append(featureID)
+        if time != tbind:
+            if time != "Any":
+                if featureID not in self.bindingConstraintViolations[0]:
+                    self.bindingConstraintViolations[0].append(featureID)

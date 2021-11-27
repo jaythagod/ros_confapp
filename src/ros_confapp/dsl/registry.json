@@ -27,6 +27,38 @@
         {
             "fid":"xukavjm_fmcrslo",
             "endpoint":"circfit"
+        },
+        {
+            "fid":"gnisyup_fmbcun",
+            "endpoint":"parallel_gripper"
+        },
+        {
+            "fid":"qjlyvz_evtokr",
+            "endpoint":"walking"
+        },
+        {
+            "fid":"ayxqgu_evtokr",
+            "endpoint":"rolling"
+        },
+        {
+            "fid":"dreonl_evtokr",
+            "endpoint":"hopping"
+        },
+        {
+            "fid":"pabzvsn_egfuvsc",
+            "endpoint":"astar"
+        },
+        {
+            "fid":"ceukajv_jdhdif",
+            "endpoint":"ssd"
+        },
+        {
+            "fid":"jfcutet_jdhdif",
+            "endpoint":"fast_rcnn"
+        },
+        {
+            "fid":"gxhout_foubqr",
+            "endpoint":"uvc_emission"
         }
     ]
 }
