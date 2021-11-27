@@ -1,6 +1,6 @@
 {
     "id": "root_bot",
-    "name": "XXX",
+    "name": "UVD_Model_C",
     "type": "",
     "group": "",
     "rel": "",
@@ -89,31 +89,6 @@
                             "type": "Concrete",
                             "group": "OR",
                             "rel": "MAN"
-                        },
-                        {
-                            "id": "rqkbhe_oquglo",
-                            "name": "arm_control",
-                            "type": "Abstract",
-                            "group": "OR",
-                            "rel": "MAN",
-                            "sub": [
-                                {
-                                    "id": "fmbcun_rqkbhe",
-                                    "name": "gripper_control",
-                                    "type": "Concrete",
-                                    "group": "AND",
-                                    "rel": "OPT",
-                                    "sub": [
-                                        {
-                                            "id": "gnisyup_fmbcun",
-                                            "name": "parallel_gripper",
-                                            "type": "Concrete",
-                                            "group": "AND",
-                                            "rel": "MAN"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 }
@@ -349,6 +324,38 @@
                 {
                     "id": "dreonl_evtokr",
                     "name": "hopping",
+                    "type": "Concrete",
+                    "group": "AND",
+                    "rel": "MAN"
+                }
+            ]
+        },
+        {
+            "id": "foubqr_root",
+            "name": "lighting",
+            "type": "Concrete",
+            "group": "AND",
+            "rel": "MAN",
+            "sub": [
+                {
+                    "id": "gxhout_foubqr",
+                    "name": "uvc_emission",
+                    "type": "Concrete",
+                    "group": "AND",
+                    "rel": "MAN"
+                }
+            ]
+        },
+        {
+            "id": "ocvflt_root",
+            "name": "sound",
+            "type": "Concrete",
+            "group": "AND",
+            "rel": "MAN",
+            "sub": [
+                {
+                    "id": "rlgkct_ocvflt",
+                    "name": "prompter",
                     "type": "Concrete",
                     "group": "AND",
                     "rel": "MAN"

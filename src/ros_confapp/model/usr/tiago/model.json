@@ -1,6 +1,6 @@
 {
     "id": "root_bot",
-    "name": "TiMo",
+    "name": "TIAGo",
     "type": "",
     "group": "",
     "rel": "",
@@ -102,7 +102,16 @@
                                     "name": "gripper_control",
                                     "type": "Concrete",
                                     "group": "AND",
-                                    "rel": "OPT"
+                                    "rel": "OPT",
+                                    "sub": [
+                                        {
+                                            "id": "gnisyup_fmbcun",
+                                            "name": "parallel_gripper",
+                                            "type": "Concrete",
+                                            "group": "AND",
+                                            "rel": "MAN"
+                                        }
+                                    ]
                                 }
                             ]
                         }
@@ -150,7 +159,23 @@
                                             "name": "object_detection",
                                             "type": "Abstract",
                                             "group": "OR",
-                                            "rel": "MAN"
+                                            "rel": "MAN",
+                                            "sub": [
+                                                {
+                                                    "id": "ceukajv_jdhdif",
+                                                    "name": "ssd",
+                                                    "type": "Concrete",
+                                                    "group": "AND",
+                                                    "rel": "MAN"
+                                                },
+                                                {
+                                                    "id": "jfcutet_jdhdif",
+                                                    "name": "fast_rcnn",
+                                                    "type": "Concrete",
+                                                    "group": "AND",
+                                                    "rel": "MAN"
+                                                }
+                                            ]
                                         },
                                         {
                                             "id": "otdimg_ctdmtv",
@@ -251,7 +276,16 @@
                                             "name": "path_planning",
                                             "type": "Abstract",
                                             "group": "AND",
-                                            "rel": "MAN"
+                                            "rel": "MAN",
+                                            "sub": [
+                                                {
+                                                    "id": "pabzvsn_egfuvsc",
+                                                    "name": "astar",
+                                                    "type": "Concrete",
+                                                    "group": "AND",
+                                                    "rel": "MAN"
+                                                }
+                                            ]
                                         }
                                     ]
                                 }
@@ -260,20 +294,11 @@
                     ]
                 },
                 {
-                    "id": "dljemx_gotsi",
-                    "name": "despite_media",
+                    "id": "ihyvcs_gotsi",
+                    "name": "touch_screen",
                     "type": "Concrete",
                     "group": "AND",
-                    "rel": "MAN",
-                    "sub": [
-                        {
-                            "id": "ufyisa_dljemx",
-                            "name": "kwame_sefa",
-                            "type": "Concrete",
-                            "group": "AND",
-                            "rel": "MAN"
-                        }
-                    ]
+                    "rel": "MAN"
                 }
             ]
         },
@@ -303,6 +328,36 @@
                     "name": "cloud_access",
                     "type": "Concrete",
                     "group": "OR",
+                    "rel": "MAN"
+                }
+            ]
+        },
+        {
+            "id": "evtokr_root",
+            "name": "locomotion",
+            "type": "Concrete",
+            "group": "AND",
+            "rel": "MAN",
+            "sub": [
+                {
+                    "id": "qjlyvz_evtokr",
+                    "name": "walking",
+                    "type": "Concrete",
+                    "group": "AND",
+                    "rel": "MAN"
+                },
+                {
+                    "id": "ayxqgu_evtokr",
+                    "name": "rolling",
+                    "type": "Concrete",
+                    "group": "AND",
+                    "rel": "MAN"
+                },
+                {
+                    "id": "dreonl_evtokr",
+                    "name": "hopping",
+                    "type": "Concrete",
+                    "group": "AND",
                     "rel": "MAN"
                 }
             ]

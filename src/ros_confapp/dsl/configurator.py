@@ -19,6 +19,8 @@ class Configurator(ConstraintChecker, Bindings):
             #for each config entry, check excludes
             if len(config['constraints']['ex']) > 0:
                 self.excludes(config['id'], config['constraints']['ex'])
+            
+            self.featureConfigurationConstraints(config['id'], config['props']['mode'], config['props']['time'], config['constraints']['tbind'], config['constraints']['mbind'])
         #check parent child constraint
         self.parentChildMode()
 
@@ -40,3 +42,15 @@ class Configurator(ConstraintChecker, Bindings):
             pc_list = "\n".join(pairString_list)
             print(f'\n\tParent/Child Constraint Violation:\n ------------------------------------------- \n         Parent      |       Child\n -------------------------------------------')
             print(pc_list)
+
+        if(len(self.bindingConstraintViolations[0]) > 0):
+            time_string = "\n".join(self.bindingConstraintViolations[0])
+            print(f'\n\tTime Binding Mismatch Violation:\n ----------------------------------------------------- \n')
+            print(time_string)
+            print("------------------------------------------------------")
+
+        if(len(self.bindingConstraintViolations[1]) > 0):
+            mode_string = "\n".join(self.bindingConstraintViolations[1])
+            print(f'\n\tMode Binding Mismatch Violation:\n ----------------------------------------------------- \n')
+            print(mode_string)
+            print("------------------------------------------------------")
