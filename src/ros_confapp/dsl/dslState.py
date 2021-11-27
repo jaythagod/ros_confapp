@@ -28,6 +28,23 @@ class DslState:
         regEngineState = json.loads(dataFile.read())
         dataFile.close()
         return regEngineState
+    
+    def customGetRegistryState(self):
+        rawReg = self.getRegistryState()
+        
+        indData = self.readIndexLookup()
+        indIDs = []
+        for element in indData['mappings']:
+            indIDs.append(element['child'])
+
+        customFeatureSet = []
+
+        for vars in rawReg['env_var']:
+            if vars['fid'] in indIDs:
+                customFeatureSet.append(vars['fid'])
+        
+        return customFeatureSet
+        
 
     def getEngineState(self):
         engineStore = os.path.join(self.enginePath, 'engineState.json')
@@ -150,5 +167,9 @@ class DslState:
                     project['time'] = "LATE"
                     rospy.loginfo("Runtime activated...")
         self.saveEngineState(engstate)
+
+    def translateFeatureIDToNName(self, featureID):
+        model = self.readModel()
+
             
                 

@@ -518,8 +518,8 @@ class CmdExec(Configurator, DslState, Documentation):
         print(f'\n+++ Configuration ({activeM}) Validation Complete +++')
 
     def run_config(self):
+        #get all statically active features
         currentConfig = self.dumpCurrentConfig()
-       
         #set global param list
         rospy.set_param('global_config_param', currentConfig)
         rospy.set_param('binding_time', "late")
@@ -530,11 +530,11 @@ class CmdExec(Configurator, DslState, Documentation):
         self.node_template_spawn(currentConfig)
 
     def node_template_spawn(self, nodeList):
-        reg = self.getRegistryState()
+        customProjectFeatureList = self.customGetRegistryState()
         
-        for vars in reg['env_var']:
-            if vars['fid'] not in nodeList:
-                self.unload(vars['fid'])  
+        for element in customProjectFeatureList:
+            if element not in nodeList:
+                self.unload(element)  
 
 
     def dump_server_settings(self):
@@ -592,7 +592,26 @@ class CmdExec(Configurator, DslState, Documentation):
         
         
 
-    
+    def set_binding_constraint(self, idAndParamsList):
+        timeExtract = ""
+        modeExtract = ""
+        for cmdElement in idAndParamsList:
+            if "=" in cmdElement:
+                fineParam = cmdElement.split("=")
+                if fineParam[0] == "time":
+                    timeExtract = fineParam[1].capitalize()
+                if fineParam[0] == "mode":
+                    modeExtract = fineParam[1].capitalize()
+
+        configState = self.readProps()
+        for prop in configState['properties']:
+            if prop['id'] == idAndParamsList[0]:
+                prop['constraints']['tbind'] = timeExtract
+                print(f'Time binding constraint updated to {timeExtract}')
+                prop['constraints']['mbind'] = modeExtract
+                print(f'Mode binding constraint updated to {modeExtract}')
+
+        self.saveProps(configState)
 
 
 
