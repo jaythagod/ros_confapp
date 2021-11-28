@@ -72,12 +72,9 @@ class Engine(DslState, ErrorCodes):
     
     def validateAlterFeature(self, dslCommand):
         paramsCheck = []
-        allowedTypes = ['concrete','abstract']
-        allowedRels = ['man','opt']
-        allowedGroups = ['or','xor']
         allowedModes = ['static','dynamic']
         allowedTimes = ['early','late']
-        allowedStatus = ['true', 'false']
+       
         alterRule = self.returnSingleLexRule("alter_feature")
         #check for invalid command parameters
         for element in dslCommand:
@@ -85,24 +82,6 @@ class Engine(DslState, ErrorCodes):
             if len(result) == 2:
                 if result[0] in alterRule['params']:
                     #check command parameter values
-                    if result[0] == "type":
-                        if result[1] in allowedTypes:
-                            paramsCheck.append(element)
-                        else:
-                            print(f'List of allowed type values: {allowedTypes}')
-
-                    if result[0] == "rel":
-                        if result[1] in allowedRels:
-                            paramsCheck.append(element)
-                        else:
-                            print(f'List of allowed rel values: {allowedRels}')
-
-                    if result[0] == "group":
-                        if result[1] in allowedGroups:
-                            paramsCheck.append(element)
-                        else:
-                            print(f'List of allowed group values: {allowedGroups}')
-
                     if result[0] == "mode":
                         if result[1] in allowedModes:
                             paramsCheck.append(element)
@@ -114,12 +93,6 @@ class Engine(DslState, ErrorCodes):
                             paramsCheck.append(element)
                         else:
                             print(f'{element} not a valid mode value. Allowed mode values are: {allowedTimes}')
-
-                    if result[0] == "status":
-                        if result[1] in allowedStatus:
-                            paramsCheck.append(element)
-                        else:
-                            print(f'List of allowed status values: {allowedStatus}')
                 else:
                     print(f'{result[0]} is not a valid alter_feature command parameter')
                     return "val_error"
@@ -161,7 +134,7 @@ class Engine(DslState, ErrorCodes):
     def validateBindingContraintSet(self, commandList):
         allowedModeConstraints = ['static', 'dynamic', 'any']
         allowedTimeConstraints = ['early', 'late', 'any']
-        
+        print(commandList)
         for cmdElement in commandList:
             if "=" in cmdElement:
                 paramSubList = cmdElement.split("=")
@@ -174,6 +147,7 @@ class Engine(DslState, ErrorCodes):
                             return "invalid_param_val"
 
         return commandList[1::]
+
 
     def runCommand(self, cmd):
         if cmd[0] == "create_default_config":
@@ -259,6 +233,3 @@ class Engine(DslState, ErrorCodes):
                 getattr(cmdexec, cmd[0])(bCon)
             else:
                 print("Execution Failed. Invalid Parameter were Supplied to the Command")
-
-        if cmd[0] == "configure_feature":
-            getattr(cmdexec, cmd[0])()
