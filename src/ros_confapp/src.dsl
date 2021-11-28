@@ -6,6 +6,7 @@
 #add_feature jude to obj_dtktn 
 
 #alter_feature nbfhv_lctm set type=Concrete rel=OR mode=static time=early status=true
+alter_feature pabzvsn_egfuvsc set mode=static time=early
 
 #show obj_dtktn
 
