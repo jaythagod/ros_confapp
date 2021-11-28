@@ -135,23 +135,56 @@ class CmdExec(Configurator, DslState, Documentation):
             for prop in props['properties']:
                 if prop['id'] == featureID:
                     for param in alterParamSet:
-                        paramSplit = param.split('=')
-                        if paramSplit[0] == 'time':
-                            if paramSplit[1].lower() in timesAllowed:
-                                prop['props'][paramSplit[0]] = paramSplit[1].lower().capitalize()
-                            else:
-                                print(f'Invalid Value. Binding time value cannot be set to {paramSplit[1].lower()}')
-                        elif paramSplit[0] == 'mode':
-                            if paramSplit[1].lower() in modesAllowed:
-                                prop['props'][paramSplit[0]] = paramSplit[1].lower().capitalize()
-                            else:
-                                print(f'Invalid Value. Binding mode value cannot be set to {paramSplit[1].lower()}')
+                        if "=" in param:
+                            paramSplit = param.split('=')
+                            if paramSplit[0] == 'time':
+                                if paramSplit[1].lower() in timesAllowed:
+                                    #check constraint + parameter match
+                                    isCompatible = self.bindingConstraintCompatibilityCheck(prop['constraints']['tbind'], paramSplit)
+                                    if isCompatible != "incompatible":
+                                        prop['props'][paramSplit[0]] = paramSplit[1].lower().capitalize()
+                                        print(f'Time binding altered to {paramSplit[1]} successfully.')
+                                    else:
+                                        timeConst = prop['constraints']['tbind']
+                                        print(f'Alter failed. Binding constraint {timeConst} and parameter {paramSplit[1]} mismatch.')
+                                else:
+                                    print(f'Invalid Value. Binding time value cannot be set to {paramSplit[1].lower()}')
+                            elif paramSplit[0] == 'mode':
+                                if paramSplit[1].lower() in modesAllowed:
+                                    #check constraint + parameter match
+                                    isCompatible = self.bindingConstraintCompatibilityCheck(prop['constraints']['mbind'], paramSplit)
+                                    if isCompatible != "incompatible":
+                                        prop['props'][paramSplit[0]] = paramSplit[1].lower().capitalize()
+                                        print(f'Mode binding altered to {paramSplit[1]} successfully.')
+                                    else:
+                                        timeConst = prop['constraints']['mbind']
+                                        print(f'Alter failed. Binding constraint {timeConst} and parameter {paramSplit[1]} mismatch.')
+                                else:
+                                    print(f'Invalid Value. Binding mode value cannot be set to {paramSplit[1].lower()}')
 
             self.saveProps(props)
-            print(f'Feature **{featureID}** altered successfully')
         else:
             print(f'Command Execution Failed: Attempting to alter nonexistent feature with ID: {featureID}')
 
+    def bindingConstraintCompatibilityCheck(self, constraint, paramList):
+        timeOptions = ['early','late']
+        modeOptions = ['static','dynamic']
+        #test time initialization
+        if paramList[0] == "time":
+            if constraint.lower() == "any":
+                if paramList[1] not in timeOptions:
+                    return "incompatible"
+            else:
+                if constraint.lower() != paramList[1]:
+                    return "incompatible"
+        #test time initialization
+        if paramList[0] == "mode":
+            if constraint.lower() == "any":
+                if paramList[1] not in modeOptions:
+                    return "incompatible"
+            else:
+                if constraint.lower() != paramList[1]:
+                    return "incompatible"
 
     def resetPath(self):
         self._stringPath = ""
