@@ -116,8 +116,8 @@ class Engine(DslState, ErrorCodes):
         
         generatedChildFeatureID = self.generateNewUniqueFeatureID(parentID)
 
-        featureStringBuild = f'{{"id":"{generatedChildFeatureID}", "name": "{childName}", "type": "Concrete", "group": "AND", "rel":"MAN"}}'
-        propsStringBuild = f'{{"id":"{generatedChildFeatureID}","constraints": {{"inc": [], "ex": [],"tbind": "","mbind": ""}}, "props": {{"mode":"Static", "time":"Early", "status": False}} }}'
+        featureStringBuild = f'{{"id":"{generatedChildFeatureID}", "name": "{childName}", "constraints": {{"inc": [], "ex": [],"tbind": "","mbind": ""}}, "group": "OR", "optional": False}}'
+        propsStringBuild = f'{{"id":"{generatedChildFeatureID}", "props": {{"mode":"Static", "time":"Early", "status": False}} }}'
         indexStringBuild = f'{{"parent":"{parentID}", "child":"{generatedChildFeatureID}"}}'
         return [featureStringBuild, propsStringBuild, indexStringBuild]      
 

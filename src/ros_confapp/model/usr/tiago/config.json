@@ -139,7 +139,7 @@
             "props": {
                 "mode": "Dynamic",
                 "time": "Early",
-                "status": false
+                "status": true
             }
         },
         {
@@ -267,7 +267,7 @@
             "props": {
                 "mode": "Dynamic",
                 "time": "Early",
-                "status": true
+                "status": false
             }
         },
         {
@@ -614,8 +614,8 @@
             "constraints": {
                 "inc": [],
                 "ex": [],
-                "tbind": "",
-                "mbind": ""
+                "tbind": "Late",
+                "mbind": "Dynamic"
             },
             "props": {
                 "mode": "Dynamic",
@@ -628,8 +628,8 @@
             "constraints": {
                 "inc": [],
                 "ex": [],
-                "tbind": "",
-                "mbind": ""
+                "tbind": "Late",
+                "mbind": "Dynamic"
             },
             "props": {
                 "mode": "Dynamic",
@@ -642,12 +642,12 @@
             "constraints": {
                 "inc": [],
                 "ex": [],
-                "tbind": "",
-                "mbind": ""
+                "tbind": "Early",
+                "mbind": "Static"
             },
             "props": {
-                "mode": "Static",
-                "time": "Early",
+                "mode": "Dynamic",
+                "time": "Late",
                 "status": false
             }
         }

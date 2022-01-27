@@ -4,6 +4,7 @@ import rostopic
 #from ros_confapp.srv import *
 from std_msgs.msg import String
 import sys
+import os
 
 try:
     import readline
@@ -28,6 +29,7 @@ class PromptSelecter(Engine):
                 currentActiveConfig = "["+project['name']+"]"
                 self._consolePrompt += currentActiveConfig
         self._consolePrompt += ">>"
+        
 
     def appModeCheck(self):
         try:
@@ -67,9 +69,10 @@ class Loader(Engine):
         #TODO:print opening message, credit and short guide
         readline.parse_and_bind("tab: complete")
         readline.set_completer(self.idCompleter)
-
+    
         if len(sys.argv) < 2:
         #activate console mode
+            
             while(True):
                 lateCommands = ['load','unload', 'ping']
                 prompt = PromptSelecter()
