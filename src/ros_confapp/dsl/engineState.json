@@ -12,7 +12,7 @@
             "name": "tiago",
             "mode": "",
             "time": "",
-            "status": 1
+            "status": 0
         },
         {
             "id": "06c5befd4c3211ecaf4ed45d645b91b9",
@@ -20,6 +20,13 @@
             "mode": "",
             "time": "",
             "status": 0
+        },
+        {
+            "id": "7a95fc72577811ec81c0d45d645b91b9",
+            "name": "const",
+            "mode": "",
+            "time": "",
+            "status": 1
         }
     ]
 }

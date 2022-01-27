@@ -24,6 +24,7 @@ class CmdExec(Configurator, DslState, Documentation):
         self._stringPath = ""
         self._traverseGuide = []
         self._lookupDataSet = []
+        self._validateIndex = []
 
     def ls(self):
         engState = self.getEngineState()
@@ -364,9 +365,9 @@ class CmdExec(Configurator, DslState, Documentation):
         propGet = self.getProperties(subArray['id'])
         
         if propGet != None:
-            if subArray['rel'] == "MAN":
+            if subArray['optional'] == False:
                     desc += "+"
-            elif subArray['rel'] == "OPT":
+            elif subArray['optional'] == True:
                     desc += "o"
 
             if subArray['group'] == "XOR":
@@ -541,14 +542,33 @@ class CmdExec(Configurator, DslState, Documentation):
 
     def validate_config(self):
         activeM = self.getActiveModel()
+        self._validateIndex = []
+        activeModel = self.readModel()
+        if "sub" in activeModel:
+            self.validate_traversal(activeModel)
+
         print(f'+++ Validating Configuration: {activeM}.....+++\n')
-        
-        props = self.readProps()
         #pass configuration to configurator
-        self.checkAllConstraints(props)
+        self.checkAllConstraints(self._validateIndex)
         self.printViolations()
 
         print(f'\n+++ Configuration ({activeM}) Validation Complete +++')
+
+    def validate_traversal(self, subArray):
+        if subArray['id'] != "root_bot":
+            fid = subArray['id']
+            fcon = subArray['constraints']
+            fprop = self.getProperties(fid)
+            fprop = fprop['props']
+            self._validateIndex.append({"id": fid, "constraints": fcon, "props": fprop})
+        if "sub" in subArray:
+            for sub in subArray['sub']:
+                self.validate_traversal(sub)
+
+        
+        #get feature object
+        #append to array
+
 
     def run_config(self):
         #get all statically active features
