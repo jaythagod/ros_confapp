@@ -1,0 +1,197 @@
+{
+    "mappings": [
+        {
+            "parent": "root_bot",
+            "child": "oocje_root"
+        },
+        {
+            "parent": "root_bot",
+            "child": "gotsi_root"
+        },
+        {
+            "parent": "root_bot",
+            "child": "bhdtj_root"
+        },
+        {
+            "parent": "bhdtj_root",
+            "child": "iqvtjg_bhdtj"
+        },
+        {
+            "parent": "bhdtj_root",
+            "child": "vertnp_bhdtj"
+        },
+        {
+            "parent": "bhdtj_root",
+            "child": "tlrehn_bhdtj"
+        },
+        {
+            "parent": "gotsi_root",
+            "child": "tarecd_gotsi"
+        },
+        {
+            "parent": "tarecd_gotsi",
+            "child": "btgivd_tarecd"
+        },
+        {
+            "parent": "tarecd_gotsi",
+            "child": "umevdg_tarecd"
+        },
+        {
+            "parent": "oocje_root",
+            "child": "nrbsdk_oocje"
+        },
+        {
+            "parent": "oocje_root",
+            "child": "oquglo_oocje"
+        },
+        {
+            "parent": "nrbsdk_oocje",
+            "child": "jgiocm_nrbsdk"
+        },
+        {
+            "parent": "oquglo_oocje",
+            "child": "qelhvp_oquglo"
+        },
+        {
+            "parent": "oquglo_oocje",
+            "child": "amvoec_oquglo"
+        },
+        {
+            "parent": "oquglo_oocje",
+            "child": "vtehli_oquglo"
+        },
+        {
+            "parent": "oquglo_oocje",
+            "child": "joetnk_oquglo"
+        },
+        {
+            "parent": "oquglo_oocje",
+            "child": "rqkbhe_oquglo"
+        },
+        {
+            "parent": "qelhvp_oquglo",
+            "child": "olbfug_qelhvp"
+        },
+        {
+            "parent": "vtehli_oquglo",
+            "child": "ovongf_vtehli"
+        },
+        {
+            "parent": "ovongf_vtehli",
+            "child": "dptoia_ovongf"
+        },
+        {
+            "parent": "rqkbhe_oquglo",
+            "child": "fmbcun_rqkbhe"
+        },
+        {
+            "parent": "btgivd_tarecd",
+            "child": "netejm_btgivd"
+        },
+        {
+            "parent": "btgivd_tarecd",
+            "child": "ctdmtv_btgivd"
+        },
+        {
+            "parent": "btgivd_tarecd",
+            "child": "ptiuct_btgivd"
+        },
+        {
+            "parent": "ctdmtv_btgivd",
+            "child": "jdhdif_ctdmtv"
+        },
+        {
+            "parent": "ctdmtv_btgivd",
+            "child": "otdimg_ctdmtv"
+        },
+        {
+            "parent": "ctdmtv_btgivd",
+            "child": "gviekr_ctdmtv"
+        },
+        {
+            "parent": "umevdg_tarecd",
+            "child": "mhyvlpn_umevdg"
+        },
+        {
+            "parent": "umevdg_tarecd",
+            "child": "ajpzcbo_umevdg"
+        },
+        {
+            "parent": "mhyvlpn_umevdg",
+            "child": "znjmvuc_mhyvlpn"
+        },
+        {
+            "parent": "mhyvlpn_umevdg",
+            "child": "umzqvjv_mhyvlpn"
+        },
+        {
+            "parent": "ajpzcbo_umevdg",
+            "child": "egfuvsc_ajpzcbo"
+        },
+        {
+            "parent": "znjmvuc_mhyvlpn",
+            "child": "yuhejfl_znjmvuc"
+        },
+        {
+            "parent": "znjmvuc_mhyvlpn",
+            "child": "fmcrslo_znjmvuc"
+        },
+        {
+            "parent": "fmcrslo_znjmvuc",
+            "child": "xukavjm_fmcrslo"
+        },
+        {
+            "parent": "fmcrslo_znjmvuc",
+            "child": "jvxebvq_fmcrslo"
+        },
+        {
+            "parent": "gotsi_root",
+            "child": "obkyxl_gotsi"
+        },
+        {
+            "parent": "gotsi_root",
+            "child": "rgopfb_gotsi"
+        },
+        {
+            "parent": "gotsi_root",
+            "child": "ftvmbj_gotsi"
+        },
+        {
+            "parent": "dljemx_gotsi",
+            "child": "ufyisa_dljemx"
+        },
+        {
+            "parent": "fmbcun_rqkbhe",
+            "child": "gnisyup_fmbcun"
+        },
+        {
+            "parent": "root_bot",
+            "child": "evtokr_root"
+        },
+        {
+            "parent": "evtokr_root",
+            "child": "qjlyvz_evtokr"
+        },
+        {
+            "parent": "evtokr_root",
+            "child": "ayxqgu_evtokr"
+        },
+        {
+            "parent": "evtokr_root",
+            "child": "dreonl_evtokr"
+        },
+        {
+            "parent": "egfuvsc_ajpzcbo",
+            "child": "pabzvsn_egfuvsc"
+        },
+        {
+            "parent": "jdhdif_ctdmtv",
+            "child": "ceukajv_jdhdif"
+        },
+        {
+            "parent": "jdhdif_ctdmtv",
+            "child": "jfcutet_jdhdif"
+        }
+    ],
+    "last_update": ""
+}

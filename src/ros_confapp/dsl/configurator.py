@@ -12,7 +12,7 @@ class Configurator(ConstraintChecker, Bindings):
         # clear previous validation data
         self.resetViolationsList()
         #loop through config
-        for config in configuration['properties']:
+        for config in configuration:
             #for each config entry, check includes
             if len(config['constraints']['inc']) > 0:
                 self.includes(config['id'], config['constraints']['inc'])
